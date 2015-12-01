@@ -47,7 +47,6 @@ void ofApp::setup()
         ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
     }
     
-    ofDirectory elementsDir;
     elementsDir.open("Settings/Elements");
     elementsDir.listDir();
     elements.resize(elementsDir.numFiles());
@@ -206,22 +205,7 @@ void ofApp::keyPressed(int key)
     else if( key == ' ' )
     {
         elements[output].setFromCurrentSystem(&particles, &camera);
-        switch (output) {
-            case 0:
-                elements[output].saveToFile("Settings/Fire.xml");
-                break;
-            case 1:
-                elements[output].saveToFile("Settings/Water.xml");
-                break;
-            case 2:
-                elements[output].saveToFile("Settings/Earth.xml");
-                break;
-            case 3:
-                elements[output].saveToFile("Settings/Air.xml");
-                break;
-            default:
-                break;
-        }
+        elements[output].saveToFile(elementsDir.getPath(output));
     }
     
     switch (key) {

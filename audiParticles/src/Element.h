@@ -13,7 +13,7 @@
 #include "ParticleSystemGPU.h"
 
 struct element {
-    ofVec3f noiseMagnitudeInfluence;
+    ofVec2f baseSpeedInfluence;
     float particleMaxAge;
     float noiseMagnitude;
     float noisePositionScale;

@@ -58,6 +58,9 @@ void element::loadFromFile(string xmlSettingsPath) {
     vector<string> cameraPosSplit = ofSplitString(xml.getValue("Camera_Pos"), ",");
     cameraPos = ofVec3f(ofToFloat(cameraPosSplit[0]), ofToFloat(cameraPosSplit[1]), ofToFloat(cameraPosSplit[2]));
     
+    vector<string> influenceSplit = ofSplitString(xml.getValue("Wind_Influence"), ",");
+    baseSpeedInfluence = ofVec2f(ofToFloat(influenceSplit[0]), ofToFloat(influenceSplit[1]));
+    
     foregroundLoaded = foreground.loadImage(xml.getValue("Foreground_Path"));
     backgroundLoaded = background.loadImage(xml.getValue("Background_Path"));
 }
@@ -78,6 +81,7 @@ void element::saveToFile(string xmlSettingsPath) {
     xml.setValue("Time_Step", ofToString(timeStep));
     xml.setValue("Foreground_Color", ofToString(foregroundColor));
     xml.setValue("Background_Color", ofToString(backgroundColor));
+    xml.setValue("Wind_Influence", ofToString(baseSpeedInfluence));
     xml.save(xmlSettingsPath);
 }
 
@@ -95,6 +99,7 @@ void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPe
     cameraPos = cam->getPosition();
     foregroundColor = particleSystem->foregroundColor;
     backgroundColor = particleSystem->backgroundColor;
+    baseSpeedInfluence = particleSystem->baseSpeedInfluence;
 }
 
 void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam) {
@@ -111,4 +116,5 @@ void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPer
     cam->setPosition(cameraPos);
     particleSystem->foregroundColor = foregroundColor;
     particleSystem->backgroundColor = backgroundColor;
+    particleSystem->baseSpeedInfluence = baseSpeedInfluence;
 }

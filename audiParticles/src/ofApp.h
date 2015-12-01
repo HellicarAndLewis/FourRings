@@ -44,6 +44,8 @@ class ofApp : public ofBaseApp
         ofParameter<int>        input;
         ofParameter<int>        output;
 	
+        ofDirectory elementsDir;
+
 		bool					drawGui;
     
         enum INPUT {

@@ -48,7 +48,7 @@ class ParticleSystemGPU
 		ofParameter<float>		twistMinAng;
 		ofParameter<float>		twistMaxAng;
         ofParameter<float>		timeStep;
-        ofParameter<ofVec2f>    baseSpeedInfluece;
+        ofParameter<ofVec2f>    baseSpeedInfluence;
         ofParameter<ofColor>    foregroundColor;
         ofParameter<ofColor>    backgroundColor;
 		

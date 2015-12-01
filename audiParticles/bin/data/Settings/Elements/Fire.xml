@@ -22,5 +22,6 @@
     <Foreground_Color>255.0, 255.0, 255.0, 255</Foreground_Color>
     <Background_Color>209.0, 8, 4, 255</Background_Color>
     <Time_Step>0.00116667</Time_Step>
+    <Wind_Influence>1.0, 0.0</Wind_Influence>
 <Main/>
 </Main>
