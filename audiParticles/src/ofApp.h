@@ -33,7 +33,6 @@ class ofApp : public ofBaseApp
         void drawPointCloud();
 	
 		float					time;
-//		float					timeStep;
 	
 		ParticleSystemGPU		particles;
 	
@@ -61,18 +60,14 @@ class ofApp : public ofBaseApp
             NUM_OUTPUTS
         };
         
-        ofxKinect* kinect;
+        ofxKinect kinect;
         
         ofVideoGrabber* grabber;
         
         ofImage img;
     
-        ofImage foreground, background;
-        
         ofxCv::FlowFarneback flowFinder;
-        
-        Integrator<float> xWind;
-    
+            
         int lastOutput;
         
         vector<element> elements;

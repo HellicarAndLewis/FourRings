@@ -22,6 +22,9 @@ void ParticleSystemGPU::init( int _texSize )
 	gui.add( baseSpeed.set("Wind", ofVec3f(0.5,0,0), ofVec3f(-2,-2,-2), ofVec3f(2,2,2)) );
 	gui.add( startColor.set("Start Color", ofColor::white, ofColor(0,0,0,0), ofColor(255,255,255,255)) );
 	gui.add( endColor.set("End Color", ofColor(0,0,0,0), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
+    gui.add( foregroundColor.set("Foreground Color", ofColor(255, 255, 255), ofColor(0, 0, 0), ofColor(255, 255, 255)));
+    gui.add( backgroundColor.set("Background Color", ofColor(255, 255, 255), ofColor(0, 0, 0), ofColor(255, 255, 255)));
+
 	gui.add( particleSize.set("Particle Size", 0.01, 0.0001f, 0.05f) );
     gui.add( timeStep.set("Time Step", 1.0f / 60.0f, -1.0 / 60.0f, 2.0 / 60.0f) );
     gui.add( baseSpeedInfluece.set("Flow Influence on Base Speed", ofVec2f(1.0, 0.0), ofVec2f(0.0, 0.0), ofVec2f(1.0, 1.0)) );
@@ -187,8 +190,8 @@ void ParticleSystemGPU::draw( ofCamera* _camera )
 }
 
 void ParticleSystemGPU::modifyByVector( ofVec2f flow ) {
-    float flowX = ofMap(flow.x, 10, -10, baseSpeed.getMin().x, baseSpeed.getMax().x);
-    float flowY = ofMap(flow.y, 10, -10, baseSpeed.getMin().y, baseSpeed.getMax().y);
+    float flowX = ofMap(flow.x, 10, -10, baseSpeed.getMin().x, baseSpeed.getMax().x, true);
+    float flowY = ofMap(flow.y, 10, -10, baseSpeed.getMin().y, baseSpeed.getMax().y, true);
     
     float newX = baseSpeedInfluece.get().x * flowX + (1 - baseSpeedInfluece.get().x) * baseSpeed.get().x;
     float newY = baseSpeedInfluece.get().y * flowY + (1 - baseSpeedInfluece.get().y) * baseSpeed.get().y;

@@ -76,6 +76,8 @@ void element::saveToFile(string xmlSettingsPath) {
     xml.setValue("End_Color", ofToString(endColor));
     xml.setValue("Camera_Pos", ofToString(cameraPos));
     xml.setValue("Time_Step", ofToString(timeStep));
+    xml.setValue("Foreground_Color", ofToString(foregroundColor));
+    xml.setValue("Background_Color", ofToString(backgroundColor));
     xml.save(xmlSettingsPath);
 }
 
@@ -91,6 +93,8 @@ void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPe
     particleSize = particleSystem->particleSize;
     timeStep = particleSystem->timeStep;
     cameraPos = cam->getPosition();
+    foregroundColor = particleSystem->foregroundColor;
+    backgroundColor = particleSystem->backgroundColor;
 }
 
 void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam) {
@@ -105,4 +109,6 @@ void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPer
     particleSystem->particleSize = particleSize;
     particleSystem->timeStep = timeStep;
     cam->setPosition(cameraPos);
+    particleSystem->foregroundColor = foregroundColor;
+    particleSystem->backgroundColor = backgroundColor;
 }

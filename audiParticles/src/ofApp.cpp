@@ -9,7 +9,6 @@ void ofApp::setup()
 {
 	//ofSetLogLevel( OF_LOG_VERBOSE );
     
-	
 	ofSetFrameRate( 60 );
 	
 	fontSmall.loadFont("Fonts/DIN.otf", 8 );
@@ -25,8 +24,7 @@ void ofApp::setup()
 	camera.setMovementMaxSpeed( 0.01f );
 
 	time = 0.0f;
-//	timeStep = 1.0f / 60.0f / 16;
-	
+
 	drawGui = false;
     
     //Setup the videoGrabber
@@ -35,18 +33,28 @@ void ofApp::setup()
     grabber->initGrabber( 160, 120 );
     
     //Setup the kinect
-    kinect = new ofxKinect();
+    kinect.setRegistration(true);
 
-    kinect->init();
+    kinect.init();
     
-    kinect->open();
+    kinect.open();
     
     // print the intrinsic IR sensor values
-    if(kinect->isConnected()) {
-        ofLogNotice() << "sensor-emitter dist: " << kinect->getSensorEmitterDistance() << "cm";
-        ofLogNotice() << "sensor-camera dist:  " << kinect->getSensorCameraDistance() << "cm";
-        ofLogNotice() << "zero plane pixel size: " << kinect->getZeroPlanePixelSize() << "mm";
-        ofLogNotice() << "zero plane dist: " << kinect->getZeroPlaneDistance() << "mm";
+    if(kinect.isConnected()) {
+        ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
+        ofLogNotice() << "sensor-camera dist:  " << kinect.getSensorCameraDistance() << "cm";
+        ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
+        ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
+    }
+    
+    ofDirectory elementsDir;
+    elementsDir.open("Settings/Elements");
+    elementsDir.listDir();
+    elements.resize(elementsDir.numFiles());
+    for(int i = 0; i < elementsDir.numFiles(); i++) {
+        string path = elementsDir.getPath(i);
+        cout<<path<<endl;
+        elements[i].loadFromFile(path);
     }
     
     //Setup the gui for controlling input and output
@@ -54,23 +62,19 @@ void ofApp::setup()
     gui.setup("input/output", xmlSettingsPath);
     gui.setPosition(ofGetWidth()/2, 10);
     gui.add(input.set("Input", KINECT, 0, 1));
-    gui.add(output.set("Element", FIRE, 0, 3));
+    gui.add(output.set("Element", FIRE, 0, elementsDir.numFiles()-1));
     gui.loadFromFile(xmlSettingsPath);
     
-    xWind.set(0.017);
+//    elements.resize(4);
+//    elements[0].loadFromFile("Settings/Elements/Fire.xml");
+//    elements[1].loadFromFile("Settings/Elements/Water.xml");
+//    elements[2].loadFromFile("Settings/Elements/Earth.xml");
+//    elements[3].loadFromFile("Settings/Elements/Air.xml");
     
-    elements.resize(4);
-    elements[0].loadFromFile("Settings/Fire.xml");
-    elements[1].loadFromFile("Settings/Water.xml");
-    elements[2].loadFromFile("Settings/Earth.xml");
-    elements[3].loadFromFile("Settings/Air.xml");
-    
-    lastOutput = NUM_OUTPUTS;
+    lastOutput = elementsDir.numFiles();
     
     ofSetWindowShape(1080, 1920);
     ofSetWindowPosition(ofGetScreenWidth(), 0);
-    
-    foreground.loadImage("Textures/Lavacracks.png");
 }
 
 
@@ -88,7 +92,15 @@ void ofApp::update()
 	time += particles.timeStep;
     
     if(input == KINECT) {
-        kinect->update();
+        kinect.update();
+        if(kinect.isFrameNew()) {
+            img.setFromPixels(kinect.getPixels(), kinect.getWidth(), kinect.getHeight(), OF_IMAGE_COLOR);
+            img.setImageType(OF_IMAGE_GRAYSCALE);
+            img.resize(grabber->getWidth(), grabber->getHeight());
+            flowFinder.calcOpticalFlow(img);
+            ofVec2f flow = flowFinder.getAverageFlow();
+            particles.modifyByVector(flow);
+        }
     }
     if(input == CAMERA) {
         grabber->update();
@@ -97,14 +109,10 @@ void ofApp::update()
             img.setImageType(OF_IMAGE_GRAYSCALE);
             flowFinder.calcOpticalFlow(img);
             ofVec2f flow = flowFinder.getAverageFlow();
-//            float xFlow = ofMap(flow.x, -10, 10, 0.5, -0.5, true);
-//            xWind.target(xFlow);
-//            xWind.update();
             particles.modifyByVector(flow);
-//            particles.baseSpeed.set(ofVec3f(xFlow, particles.baseSpeed.get().y,  particles.baseSpeed.get().z));
         }
     }
-}
+}   
 
 
 
@@ -116,15 +124,14 @@ void ofApp::draw()
 	ofBackgroundGradient( ofColor(40,40,40), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
     if(elements[output].backgroundLoaded) {
         ofPushStyle();
-        ofSetColor(elements[output].backgroundColor);
+        ofSetColor(particles.backgroundColor);
         elements[output].background.draw(0, 0, WIDTH, HEIGHT);
         ofPopStyle();
     } else {
-        ofBackground(elements[output].backgroundColor);
+        ofBackground(particles.backgroundColor);
     }
     particles.update( time  );
 
-	
 	camera.begin();
 	
 		// draw a grid on the floor
@@ -144,15 +151,13 @@ void ofApp::draw()
 	ofEnableBlendMode( OF_BLENDMODE_ALPHA );
 	ofSetColor( ofColor::white );
     
-//    drawPointCloud();
-    
    // kinect->draw(420, 10, 400, 300);
 	
 	int size = 196;
 //	particles.particleDataFbo.source()->getTextureReference(0).draw( 0,	 0, size, size );
     if(elements[output].foregroundLoaded) {
         ofPushStyle();
-        ofSetColor(255, 255, 255);
+        ofSetColor(particles.foregroundColor);
         elements[output].foreground.draw(0, 0, WIDTH, HEIGHT);
         ofPopStyle();
     }
@@ -165,7 +170,7 @@ void ofApp::draw()
         switch (input) {
             case KINECT:
                 ofScale(-1, 1);
-                kinect->draw(WIDTH/2, HEIGHT - kinect->getHeight() - 10, kinect->getHeight(), kinect->getWidth());
+                kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
                 break;
             case CAMERA:
                 ofScale(-1, 1);
@@ -246,9 +251,9 @@ void ofApp::drawPointCloud() {
     int step = 2;
     for(int y = 0; y < h; y += step) {
         for(int x = 0; x < w; x += step) {
-            if(kinect->getDistanceAt(x, y) > 0) {
-                mesh.addColor(kinect->getColorAt(x,y));
-                mesh.addVertex(kinect->getWorldCoordinateAt(x, y));
+            if(kinect.getDistanceAt(x, y) > 0) {
+                mesh.addColor(kinect.getColorAt(x,y));
+                mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
             }
         }
     }
