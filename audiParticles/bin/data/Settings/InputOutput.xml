@@ -2,4 +2,6 @@
 	<Input>0</Input>
 	<Element>0</Element>
 <input_output/>
+<Flow_Interaction>1</Flow_Interaction>
+	<Point_Cloud_Spawn>0</Point_Cloud_Spawn>
 </input_output>

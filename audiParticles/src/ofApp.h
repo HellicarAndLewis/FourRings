@@ -43,6 +43,8 @@ class ofApp : public ofBaseApp
         ofxPanel                gui;
         ofParameter<int>        input;
         ofParameter<int>        output;
+        ofParameter<bool>       flowControl;
+        ofParameter<bool>       kinectSpawn;
 	
         ofDirectory elementsDir;
 
@@ -52,14 +54,6 @@ class ofApp : public ofBaseApp
             KINECT,
             CAMERA,
             NUM_INPUTS
-        };
-        
-        enum OUTPUT {
-            FIRE,
-            WATER,
-            EARTH,
-            AIR,
-            NUM_OUTPUTS
         };
         
         ofxKinect kinect;

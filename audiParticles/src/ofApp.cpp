@@ -61,7 +61,9 @@ void ofApp::setup()
     gui.setup("input/output", xmlSettingsPath);
     gui.setPosition(ofGetWidth()/2, 10);
     gui.add(input.set("Input", KINECT, 0, 1));
-    gui.add(output.set("Element", FIRE, 0, elementsDir.numFiles()-1));
+    gui.add(output.set("Element", 0, 0, elementsDir.numFiles()-1));
+    gui.add(flowControl.set("Flow Interaction", true));
+    gui.add(kinectSpawn.set("Point Cloud Spawn", false));
     gui.loadFromFile(xmlSettingsPath);
     
 //    elements.resize(4);

@@ -1,12 +1,12 @@
 <Main>
-	<Particle_Max_Age>1.86667</Particle_Max_Age>
-	<Noise_Magnitude>0.195733</Noise_Magnitude>
-	<Noise_Position_Scale>4.3723</Noise_Position_Scale>
-	<Noise_Time_Scale>0.1009</Noise_Time_Scale>
-	<Noise_Persistence>0.21079</Noise_Persistence>
-	<Wind>-7.14377e-06, 0.000137397, 0</Wind>
+	<Particle_Max_Age>1.26667</Particle_Max_Age>
+	<Noise_Magnitude>0.4279</Noise_Magnitude>
+	<Noise_Position_Scale>9.6004</Noise_Position_Scale>
+	<Noise_Time_Scale>0.56377</Noise_Time_Scale>
+	<Noise_Persistence>0.50716</Noise_Persistence>
+	<Wind>0.00203074, 0.027211, 0.285714</Wind>
 	<Start_Color>255, 255, 255, 255</Start_Color>
-	<End_Color>27, 43, 63, 232</End_Color>
+	<End_Color>21, 72, 255, 255</End_Color>
 	<Twist_Noise_Time_Scale>0.0233333</Twist_Noise_Time_Scale>
 	<Twist_Noise_Pos_Scale>0.06</Twist_Noise_Pos_Scale>
 	<Twist_Min_Ang>-0.266667</Twist_Min_Ang>
@@ -16,12 +16,12 @@
 	<Particle_Opacity_Scale>0.786667</Particle_Opacity_Scale>
 	<Light_Position>-1.05442, 1.66667, -0.85034</Light_Position>
 	<Light_Look_At>0.0340133, -0.340136, -0.680272</Light_Look_At>
-    <Camera_Pos>-0.0135631, -0.00694073, 0.264949</Camera_Pos>
-    <Foreground_Path>Textures/Ice-Test-3.png</Foreground_Path>
+    <Camera_Pos>-0.00315484, 0.0252667, 0.432181</Camera_Pos>
+    <Foreground_Path/>
     <Background_Path/>
-    <Foreground_Color>0, 0, 0, 255</Foreground_Color>
+    <Foreground_Color>255, 255, 255, 255</Foreground_Color>
     <Background_Color>0, 0, 0, 255</Background_Color>
-    <Time_Step>0.00216667</Time_Step>
-    <Wind_Influence>0.0714286, 0.0714286</Wind_Influence>
+    <Time_Step>0.016</Time_Step>
+    <Wind_Influence>0.142857, 0</Wind_Influence>
 <Main/>
 </Main>
