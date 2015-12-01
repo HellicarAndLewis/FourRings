@@ -100,7 +100,8 @@ void ofApp::update()
             img.resize(grabber->getWidth(), grabber->getHeight());
             flowFinder.calcOpticalFlow(img);
             ofVec2f flow = flowFinder.getAverageFlow();
-            particles.modifyByVector(flow);
+            if(flowControl)
+                particles.modifyByVector(flow);
         }
     }
     if(input == CAMERA) {
@@ -110,7 +111,8 @@ void ofApp::update()
             img.setImageType(OF_IMAGE_GRAYSCALE);
             flowFinder.calcOpticalFlow(img);
             ofVec2f flow = flowFinder.getAverageFlow();
-            particles.modifyByVector(flow);
+            if(flowControl)
+                particles.modifyByVector(flow);
         }
     }
 }   
