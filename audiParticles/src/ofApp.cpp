@@ -97,10 +97,11 @@ void ofApp::update()
             img.setImageType(OF_IMAGE_GRAYSCALE);
             flowFinder.calcOpticalFlow(img);
             ofVec2f flow = flowFinder.getAverageFlow();
-            float xFlow = ofMap(flow.x, -10, 10, 0.5, -0.5, true);
-            xWind.target(xFlow);
-            xWind.update();
-//            particles.baseSpeed.set(ofVec3f(xWind.val, particles.baseSpeed.get().y,  particles.baseSpeed.get().z));
+//            float xFlow = ofMap(flow.x, -10, 10, 0.5, -0.5, true);
+//            xWind.target(xFlow);
+//            xWind.update();
+            particles.modifyByVector(flow);
+//            particles.baseSpeed.set(ofVec3f(xFlow, particles.baseSpeed.get().y,  particles.baseSpeed.get().z));
         }
     }
 }
@@ -149,10 +150,12 @@ void ofApp::draw()
 	
 	int size = 196;
 //	particles.particleDataFbo.source()->getTextureReference(0).draw( 0,	 0, size, size );
-    ofPushStyle();
-    ofSetColor(255, 255, 255);
-    elements[output].foreground.draw(0, 0, WIDTH, HEIGHT);
-    ofPopStyle();
+    if(elements[output].foregroundLoaded) {
+        ofPushStyle();
+        ofSetColor(255, 255, 255);
+        elements[output].foreground.draw(0, 0, WIDTH, HEIGHT);
+        ofPopStyle();
+    }
 
 	if( drawGui )
 	{

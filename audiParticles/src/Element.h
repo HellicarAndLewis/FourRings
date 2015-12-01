@@ -3,7 +3,7 @@
 //  audiParticles
 //
 //  Created by James Bentley on 11/30/15.
-//
+//123
 //
 
 #pragma once
@@ -13,6 +13,7 @@
 #include "ParticleSystemGPU.h"
 
 struct element {
+    ofVec3f noiseMagnitudeInfluence;
     float particleMaxAge;
     float noiseMagnitude;
     float noisePositionScale;
@@ -27,9 +28,7 @@ struct element {
     
     ofImage foreground;
     ofImage background;
-    
-    ofxPanel gui;
-    
+        
     void loadFromFile(string xmlSettingsPath);
     
     void saveToFile(string xmlSettingsPath);
@@ -37,6 +36,8 @@ struct element {
     void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam);
     
     void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam);
+    
+    void updateFromFlow(ofVec3f flow);
 };
 
 

@@ -20,7 +20,7 @@
     <Foreground_Path></Foreground_Path>
     <Background_Path></Background_Path>
     <Foreground_Color>255.0, 255.0, 255.0, 255</Foreground_Color>
-    <Background_Color>255.0, 255.0, 255.0, 255</Background_Color>
+    <Background_Color>0.0, 0.0, 0.0, 255</Background_Color>
     <Time_Step>0.016</Time_Step>
 <Main/>
 </Main>

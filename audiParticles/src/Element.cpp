@@ -12,7 +12,10 @@ void element::loadFromFile(string xmlSettingsPath) {
     ofXml xml;
     xml.load(xmlSettingsPath);
     
-//    gui.setup("Element", xmlSettingsPath);
+    foreground.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
+    background.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
+
+    //    gui.setup("Element", xmlSettingsPath);
 //    
 //    gui.add( particleMaxAge.set("Particle_Max_Age", ofToFloat(xml.getValue("Particle_Max_Age")), 0.0f, 20.0f));
 //    gui.add( particleMaxAge.set("Particle Max Age", 10.0f, 0.0f, 20.0f) );

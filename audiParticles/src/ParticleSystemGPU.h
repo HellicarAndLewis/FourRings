@@ -23,6 +23,7 @@ class ParticleSystemGPU
 		void init( int _texSize );
 		void update( float _time );
 		void draw( ofCamera* _camera );
+        void modifyByVector(ofVec2f flow);
 	
 		int						numParticles;
 		int						textureSize;
@@ -47,6 +48,7 @@ class ParticleSystemGPU
 		ofParameter<float>		twistMinAng;
 		ofParameter<float>		twistMaxAng;
         ofParameter<float>		timeStep;
+        ofParameter<ofVec2f>    baseSpeedInfluece;
 		
 		ofParameter<ofVec3f>	baseSpeed;
 		
