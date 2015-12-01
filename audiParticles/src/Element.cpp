@@ -11,12 +11,31 @@
 void element::loadFromFile(string xmlSettingsPath) {
     ofXml xml;
     xml.load(xmlSettingsPath);
+    
+//    gui.setup("Element", xmlSettingsPath);
+//    
+//    gui.add( particleMaxAge.set("Particle_Max_Age", ofToFloat(xml.getValue("Particle_Max_Age")), 0.0f, 20.0f));
+//    gui.add( particleMaxAge.set("Particle Max Age", 10.0f, 0.0f, 20.0f) );
+//    gui.add( noiseMagnitude.set("Noise Magnitude", ofToFloat(xml.getValue("Noise_Magnitude")), 0.01f, 2.0f) );
+//    gui.add( noisePositionScale.set("Noise Position Scale", ofToFloat(xml.getValue("Noise_Position_Scale")), 0.01f, 10.0f) );
+//    gui.add( noiseTimeScale.set("Noise Time Scale", ofToFloat(xml.getValue("Noise_Time_Scale")), 0.001f, 1.0f) );
+//    gui.add( noisePersistence.set("Noise Persistence", ofToFloat(xml.getValue("Noise_Persistence")), 0.001f, 1.0f) );
+//    
+//    gui.add( baseSpeed.set("Wind", ofVec3f(ofToFloat(baseSpeedSplit[0]), ofToFloat(baseSpeedSplit[1]), ofToFloat(baseSpeedSplit[2])), ofVec3f(-2,-2,-2), ofVec3f(2,2,2)) );
+//    
+//    gui.add( startColor.set("Start Color", ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3])), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
+//    
+//    gui.add( endColor.set("End Color", ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3])), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
+//    
+//    gui.add( particleSize.set("Particle Size", ofToFloat(xml.getValue("Particle_Size")), 0.0001f, 0.05f) );
+    
     particleMaxAge = ofToFloat(xml.getValue("Particle_Max_Age"));
     noiseMagnitude = ofToFloat(xml.getValue("Noise_Magnitude"));
     noisePositionScale = ofToFloat(xml.getValue("Noise_Position_Scale"));
     noisePersistence = ofToFloat(xml.getValue("Noise_Persistence"));
     noiseTimeScale = ofToFloat(xml.getValue("Noise_Time_Scale"));
     particleSize = ofToFloat(xml.getValue("Particle_Size"));
+    timeStep = ofToFloat(xml.getValue("Time_Step"));
     
     vector<string> baseSpeedSplit = ofSplitString(xml.getValue("Wind"), ",");
     baseSpeed = ofVec3f(ofToFloat(baseSpeedSplit[0]), ofToFloat(baseSpeedSplit[1]), ofToFloat(baseSpeedSplit[2]));
@@ -26,18 +45,18 @@ void element::loadFromFile(string xmlSettingsPath) {
     
     colorSplit = ofSplitString(xml.getValue("End_Color"), ",");
     endColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
+//
+    colorSplit = ofSplitString(xml.getValue("Background_Color"), ",");
+    backgroundColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
     
-//    colorSplit = ofSplitString(xml.getValue("Background_Color"), ",");
-//    backgroundColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
-//    
-//    colorSplit = ofSplitString(xml.getValue("Foreground_Color"), ",");
-//    foregroundColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
+    colorSplit = ofSplitString(xml.getValue("Foreground_Color"), ",");
+    foregroundColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
     
     vector<string> cameraPosSplit = ofSplitString(xml.getValue("Camera_Pos"), ",");
     cameraPos = ofVec3f(ofToFloat(cameraPosSplit[0]), ofToFloat(cameraPosSplit[1]), ofToFloat(cameraPosSplit[2]));
     
-    foreground.loadImage(xml.getValue("Foreground_Path"));
-    background.loadImage(xml.getValue("Background_Path"));
+    foregroundLoaded = foreground.loadImage(xml.getValue("Foreground_Path"));
+    backgroundLoaded = background.loadImage(xml.getValue("Background_Path"));
 }
 
 void element::saveToFile(string xmlSettingsPath) {
@@ -53,7 +72,7 @@ void element::saveToFile(string xmlSettingsPath) {
     xml.setValue("Start_Color", ofToString(startColor));
     xml.setValue("End_Color", ofToString(endColor));
     xml.setValue("Camera_Pos", ofToString(cameraPos));
-    
+    xml.setValue("Time_Step", ofToString(timeStep));
     xml.save(xmlSettingsPath);
 }
 
@@ -67,6 +86,7 @@ void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPe
     startColor = particleSystem->startColor;
     endColor = particleSystem->endColor;
     particleSize = particleSystem->particleSize;
+    timeStep = particleSystem->timeStep;
     cameraPos = cam->getPosition();
 }
 
@@ -80,5 +100,6 @@ void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPer
     particleSystem->startColor = startColor;
     particleSystem->endColor = endColor;
     particleSystem->particleSize = particleSize;
+    particleSystem->timeStep = timeStep;
     cam->setPosition(cameraPos);
 }

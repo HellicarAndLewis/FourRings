@@ -21,7 +21,7 @@ class ParticleSystemGPU
 	public:
 	
 		void init( int _texSize );
-		void update( float _time, float _timeStep );
+		void update( float _time );
 		void draw( ofCamera* _camera );
 	
 		int						numParticles;
@@ -46,6 +46,7 @@ class ParticleSystemGPU
 		ofParameter<float>		twistNoisePosScale;
 		ofParameter<float>		twistMinAng;
 		ofParameter<float>		twistMaxAng;
+        ofParameter<float>		timeStep;
 		
 		ofParameter<ofVec3f>	baseSpeed;
 		

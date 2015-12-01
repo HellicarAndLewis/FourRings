@@ -23,10 +23,11 @@ void ParticleSystemGPU::init( int _texSize )
 	gui.add( startColor.set("Start Color", ofColor::white, ofColor(0,0,0,0), ofColor(255,255,255,255)) );
 	gui.add( endColor.set("End Color", ofColor(0,0,0,0), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
 	gui.add( particleSize.set("Particle Size", 0.01, 0.0001f, 0.05f) );
-	//gui.add( twistNoiseTimeScale.set("Twist Noise Time Scale", 0.01, 0.0f, 0.5f) );
-	//gui.add( twistNoisePosScale.set("Twist Noise Pos Scale", 0.25, 0.0f, 2.0f) );
-	//gui.add( twistMinAng.set("Twist Min Ang", -1, -5, 5) );
-	//gui.add( twistMaxAng.set("Twist Max Ang", 2.5, -5, 5) );
+    gui.add( timeStep.set("timeStep", 1.0f / 60.0f, -1.0 / 60.0f, 2.0 / 60.0f) );
+//	gui.add( twistNoiseTimeScale.set("Twist Noise Time Scale", 0.01, 0.0f, 0.5f) );
+//	gui.add( twistNoisePosScale.set("Twist Noise Pos Scale", 0.25, 0.0f, 2.0f) );
+//	gui.add( twistMinAng.set("Twist Min Ang", -1, -5, 5) );
+//	gui.add( twistMaxAng.set("Twist Max Ang", 2.5, -5, 5) );
 	
 	gui.loadFromFile( xmlSettingsPath );
 	
@@ -112,7 +113,7 @@ void ParticleSystemGPU::init( int _texSize )
 
 //-----------------------------------------------------------------------------------------
 //
-void ParticleSystemGPU::update( float _time, float _timeStep )
+void ParticleSystemGPU::update( float _time )
 {
 	ofEnableBlendMode( OF_BLENDMODE_DISABLED ); // Important! We just want to write the data as is to the target fbo
 	
@@ -126,7 +127,7 @@ void ParticleSystemGPU::update( float _time, float _timeStep )
 			particleUpdate.setUniformTexture( "velocityTex",		particleDataFbo.source()->getTextureReference(1), 1 );
 			
 			particleUpdate.setUniform1f("u_time", _time );
-			particleUpdate.setUniform1f("u_timeStep", _timeStep );
+			particleUpdate.setUniform1f("u_timeStep", timeStep );
 			
 			particleUpdate.setUniform1f("u_particleMaxAge", particleMaxAge );
 			

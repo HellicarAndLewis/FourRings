@@ -13,14 +13,16 @@
 #include "ParticleSystemGPU.h"
 
 struct element {
-    ofParameter<float> particleMaxAge;
+    float particleMaxAge;
     float noiseMagnitude;
     float noisePositionScale;
     float noiseTimeScale;
     float noisePersistence;
     ofVec3f baseSpeed;
-    ofColor startColor, endColor, backgroundColor = ofColor(255, 255, 255), foregroundColor = ofColor(255, 255, 255);
+    ofColor startColor, endColor, backgroundColor, foregroundColor;
+    bool backgroundLoaded, foregroundLoaded;
     float particleSize;
+    float timeStep;
     ofVec3f cameraPos;
     
     ofImage foreground;

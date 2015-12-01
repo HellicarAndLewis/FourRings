@@ -25,7 +25,7 @@ void ofApp::setup()
 	camera.setMovementMaxSpeed( 0.01f );
 
 	time = 0.0f;
-	timeStep = 1.0f / 60.0f / 16;
+//	timeStep = 1.0f / 60.0f / 16;
 	
 	drawGui = false;
     
@@ -85,7 +85,7 @@ void ofApp::update()
 	// Update time, this let's us hit space and slow down time, even reverse it.
 //	if( ofGetKeyPressed(' ') ) { timeStep = ofLerp( timeStep, ofMap( ofGetMouseX(), 0, ofGetWidth(), -(1.0f/60.0f), (1.0f/60.0f) ), 0.1f );}
 //	else { timeStep = ofLerp( timeStep, 1.0f / 60.0f, 0.1f ); }
-	time += timeStep;
+	time += particles.timeStep;
     
     if(input == KINECT) {
         kinect->update();
@@ -113,11 +113,16 @@ void ofApp::update()
 void ofApp::draw()
 {
 	ofBackgroundGradient( ofColor(40,40,40), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
-    ofPushStyle();
-    ofSetColor(elements[output].backgroundColor);
-    elements[output].background.draw(0, 0, WIDTH, HEIGHT);
-    ofPopStyle();
-	particles.update( time, timeStep );
+    if(elements[output].backgroundLoaded) {
+        ofPushStyle();
+        ofSetColor(elements[output].backgroundColor);
+        elements[output].background.draw(0, 0, WIDTH, HEIGHT);
+        ofPopStyle();
+    } else {
+        ofBackground(elements[output].backgroundColor);
+    }
+    particles.update( time  );
+
 	
 	camera.begin();
 	

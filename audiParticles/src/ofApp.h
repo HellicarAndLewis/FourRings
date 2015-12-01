@@ -33,7 +33,7 @@ class ofApp : public ofBaseApp
         void drawPointCloud();
 	
 		float					time;
-		float					timeStep;
+//		float					timeStep;
 	
 		ParticleSystemGPU		particles;
 	
