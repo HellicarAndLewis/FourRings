@@ -52,7 +52,6 @@ void ofApp::setup()
     elements.resize(elementsDir.numFiles());
     for(int i = 0; i < elementsDir.numFiles(); i++) {
         string path = elementsDir.getPath(i);
-        cout<<path<<endl;
         elements[i].loadFromFile(path);
     }
     
@@ -64,6 +63,8 @@ void ofApp::setup()
     gui.add(output.set("Element", 0, 0, elementsDir.numFiles()-1));
     gui.add(flowControl.set("Flow Interaction", true));
     gui.add(kinectSpawn.set("Point Cloud Spawn", false));
+    gui.add(nearClip.set("Kinect Spawn Near Clip", 0, 0, 2000));
+    gui.add(farClip.set("Kinect Spawn Far Clip", 1500, 0, 2000));
     gui.loadFromFile(xmlSettingsPath);
     
 //    elements.resize(4);
@@ -133,7 +134,8 @@ void ofApp::draw()
     } else {
         ofBackground(particles.backgroundColor);
     }
-    particles.update( time  );
+    drawPointCloud();
+    particles.update( time , spawnPoints);
 
 	camera.begin();
 	
@@ -149,7 +151,7 @@ void ofApp::draw()
 		particles.draw( &camera );
     
 	camera.end();
-	
+    
 	ofDisableDepthTest();
 	ofEnableBlendMode( OF_BLENDMODE_ALPHA );
 	ofSetColor( ofColor::white );
@@ -174,6 +176,7 @@ void ofApp::draw()
             case KINECT:
                 ofScale(-1, 1);
                 kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
+                kinect.drawDepth(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
                 break;
             case CAMERA:
                 ofScale(-1, 1);
@@ -229,29 +232,54 @@ void ofApp::keyPressed(int key)
             break;
     }
 }
+
 //-----------------------------------------------------------------------------------------
 //
 void ofApp::drawPointCloud() {
-    int w = 640;
-    int h = 480;
-    ofMesh mesh;
-    mesh.setMode(OF_PRIMITIVE_POINTS);
-    int step = 2;
-    for(int y = 0; y < h; y += step) {
-        for(int x = 0; x < w; x += step) {
-            if(kinect.getDistanceAt(x, y) > 0) {
-                mesh.addColor(kinect.getColorAt(x,y));
-                mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
+    if(kinectSpawn) {
+        int w = 640;
+        int h = 480;
+        ofMesh mesh;
+        mesh.setMode(OF_PRIMITIVE_POINTS);
+        int step = 20;
+        spawnPoints.clear();
+        map<float, ofVec3f> distanceKeyedWorldCoords;
+        vector<float> distances;
+        for(int y = 0; y < h; y += step) {
+            for(int x = 0; x < w; x += step) {
+                if(kinect.getDistanceAt(x, y) > nearClip && kinect.getDistanceAt(x, y) < farClip) {
+                    distances.push_back(kinect.getDistanceAt(x, y));
+                    distanceKeyedWorldCoords[kinect.getDistanceAt(x, y)] = kinect.getWorldCoordinateAt(x, y);
+    //                if(kinect.getDistanceAt(x, y) < 1500) {
+    //                    mesh.addColor(kinect.getColorAt(x,y));
+    //                    mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
+
+    ////                ofVec3f vec = ofVec3f(scaledX)
+    //                    spawnPoints.push_back(ofVec3f(scaledX, scaledY, scaledZ));
+    //                }
+                }
             }
         }
+        cout<<distances.size()<<endl;
+        nth_element(distances.begin(), distances.begin() + 500, distances.end());
+        for(int i = 0; i < distances.size() && i < 500; i++) {
+            float scaledX = -1 * ofMap(distanceKeyedWorldCoords[distances[i]].x, -500, 500, -0.1, 0.1, true);
+            float scaledY = ofMap(distanceKeyedWorldCoords[distances[i]].y, -500, 500, -0.1, 0.1, true);
+            float scaledZ = ofMap(distanceKeyedWorldCoords[distances[i]].z, -500, 500, -0.1, 0.1, true);
+            spawnPoints.push_back(ofVec3f(scaledX, scaledY, scaledZ));
+        }
     }
-    glPointSize(3);
-    ofPushMatrix();
-    // the projected points are 'upside down' and 'backwards'
-    ofScale(1, -1, -1);
-    ofTranslate(0, 0, -1000); // center the points a bit
-    ofEnableDepthTest();
-    mesh.drawVertices();
-    ofDisableDepthTest();
-    ofPopMatrix();
+    
+    while (spawnPoints.size() < 200) {
+        spawnPoints.push_back(0.1 * ofVec3f(ofRandom(-1, 1), ofRandom(-1, 1), ofRandom(-1, 1)));
+    }
+//        glPointSize(3);
+//    ofPushMatrix();
+//    // the projected points are 'upside down' and 'backwards'
+//    //ofScale(1, -1, -1);
+//    ofTranslate(0, 0, -2000); // center the points a bit
+//    ofEnableDepthTest();
+//    mesh.drawVertices();
+//    ofDisableDepthTest();
+//    ofPopMatrix();
 }

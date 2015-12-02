@@ -7,6 +7,8 @@
 //#pragma include "Shaders/Common/SimplexNoiseDerivatives4D.glslinc"
 #pragma include "Shaders/Common/Noise4D.glslinc"
 
+#define MAX_SPAWN_POINTS 500
+
 uniform sampler2D u_positionAndAgeTex;
 
 uniform float u_time;
@@ -19,6 +21,8 @@ uniform float u_noiseMagnitude = 0.075;
 uniform float u_noiseTimeScale = 1.0 / 4000.0;
 uniform float u_noisePersistence = 0.2;
 uniform vec3 u_wind = vec3( 0.5, 0.0, 0.0 );
+uniform vec3 u_spawnPoints[MAX_SPAWN_POINTS];
+uniform int u_numSpawnPoints;
 
 const int OCTAVES = 3;
 
@@ -38,8 +42,16 @@ void main (void)
 	{
 		age = age - u_particleMaxAge;
 		
-		float spawnRadius = 0.1;
-		pos = randomPointOnSphere( vec3( rand( texCoord + pos.xy ), rand( texCoord.xy + pos.yz ), rand( texCoord.yx + pos.yz ))) * spawnRadius;
+		//float spawnRadius = 0.1;
+		//pos = randomPointOnSphere( vec3( rand( texCoord + pos.xy ), rand( texCoord.xy + pos.yz ), rand( texCoord.yx + pos.yz ))) * spawnRadius;
+        float randomNum = rand(texCoord + pos.xy);
+        float randomIndexf = map(randomNum, 0.0, 1.0, 0.0, u_numSpawnPoints);
+        int randomIndex = int(randomIndexf);
+        pos = u_spawnPoints[randomIndex];
+        pos.x += map(rand(texCoord + pos.xy), 0.0, 1.0, -0.005, 0.005);
+        pos.y += map(rand(texCoord.xy + pos.yz), 0.0, 1.0, -0.005, 0.005);
+        pos.x += map(rand(texCoord.yx + pos.yz), 0.0, 1.0, -0.005, 0.005);
+
 	}
 	
 	vec3 noisePosition = pos  * u_noisePositionScale;

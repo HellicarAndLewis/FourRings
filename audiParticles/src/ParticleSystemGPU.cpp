@@ -117,7 +117,7 @@ void ParticleSystemGPU::init( int _texSize )
 
 //-----------------------------------------------------------------------------------------
 //
-void ParticleSystemGPU::update( float _time )
+void ParticleSystemGPU::update( float _time, vector<ofVec3f> spawnPoints)
 {
 	ofEnableBlendMode( OF_BLENDMODE_DISABLED ); // Important! We just want to write the data as is to the target fbo
 	
@@ -128,7 +128,7 @@ void ParticleSystemGPU::update( float _time )
 		particleUpdate.begin();
 	
 			particleUpdate.setUniformTexture( "u_positionAndAgeTex",	particleDataFbo.source()->getTextureReference(0), 0 );
-			particleUpdate.setUniformTexture( "velocityTex",		particleDataFbo.source()->getTextureReference(1), 1 );
+//			particleUpdate.setUniformTexture( "velocityTex",		particleDataFbo.source()->getTextureReference(1), 1 );
 			
 			particleUpdate.setUniform1f("u_time", _time );
 			particleUpdate.setUniform1f("u_timeStep", timeStep );
@@ -140,6 +140,11 @@ void ParticleSystemGPU::update( float _time )
 			particleUpdate.setUniform1f("u_noisePersistence", noisePersistence );
 			particleUpdate.setUniform1f("u_noiseMagnitude", noiseMagnitude );
 			particleUpdate.setUniform3f("u_wind", baseSpeed.get().x, baseSpeed.get().y, baseSpeed.get().z );
+//            spawnPoints.resize(200);
+//            spawnPoints[0] = ofVec3f(0, 0.1, 0);
+//            spawnPoints[1] = ofVec3f(0, -0.1, 0);
+            particleUpdate.setUniform3fv("u_spawnPoints", (float *)&spawnPoints[0], spawnPoints.size());
+            particleUpdate.setUniform1i("u_numSpawnPoints", spawnPoints.size());
 			
 			particleDataFbo.source()->draw(0,0);
 		

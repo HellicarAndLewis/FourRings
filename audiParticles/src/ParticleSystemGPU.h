@@ -21,7 +21,7 @@ class ParticleSystemGPU
 	public:
 	
 		void init( int _texSize );
-		void update( float _time );
+		void update( float _time, vector<ofVec3f> spawnPoints );
 		void draw( ofCamera* _camera );
         void modifyByVector(ofVec2f flow);
 	

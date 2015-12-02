@@ -45,6 +45,8 @@ class ofApp : public ofBaseApp
         ofParameter<int>        output;
         ofParameter<bool>       flowControl;
         ofParameter<bool>       kinectSpawn;
+        ofParameter<int>        nearClip;
+        ofParameter<int>        farClip;
 	
         ofDirectory elementsDir;
 
@@ -59,7 +61,9 @@ class ofApp : public ofBaseApp
         ofxKinect kinect;
         
         ofVideoGrabber* grabber;
-        
+    
+        vector<ofVec3f> spawnPoints;
+
         ofImage img;
     
         ofxCv::FlowFarneback flowFinder;
