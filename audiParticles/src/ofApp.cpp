@@ -134,7 +134,7 @@ void ofApp::draw()
     } else {
         ofBackground(particles.backgroundColor);
     }
-    drawPointCloud();
+    setSpawnPointsContours();
     particles.update( time , spawnPoints);
 
 	camera.begin();
@@ -174,9 +174,15 @@ void ofApp::draw()
         //switch for which input we're using
         switch (input) {
             case KINECT:
-                ofScale(-1, 1);
-                kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
-                kinect.drawDepth(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
+                ofTranslate(0, HEIGHT - kinect.getHeight());
+                //kinect.draw(0, 0, kinect.getWidth(), kinect.getHeight());
+                ofTranslate(kinect.getWidth(), 0);
+                kinect.drawDepth(0, 0, kinect.getWidth(), kinect.getHeight());
+                contourFinder.draw();
+//                ofScale(-1, 1);
+//                kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
+//                kinect.drawDepth(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
+//                contourFinder.draw(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
                 break;
             case CAMERA:
                 ofScale(-1, 1);
@@ -235,7 +241,7 @@ void ofApp::keyPressed(int key)
 
 //-----------------------------------------------------------------------------------------
 //
-void ofApp::drawPointCloud() {
+void ofApp::setSpawnPointsPointCloud() {
     if(kinectSpawn) {
         int w = 640;
         int h = 480;
@@ -282,4 +288,48 @@ void ofApp::drawPointCloud() {
 //    mesh.drawVertices();
 //    ofDisableDepthTest();
 //    ofPopMatrix();
+}
+
+void ofApp::setSpawnPointsContours() {
+    spawnPoints.clear();
+    if(kinectSpawn) {
+        grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
+        grayThreshNear = grayImage;
+        grayThreshFar = grayImage;
+        grayThreshNear.threshold(230, true);
+        grayThreshFar.threshold(70);
+        cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+        grayImage.flagImageChanged();
+        contourFinder.findContours(grayImage, 10, (kinect.width*kinect.height)/2, 20, false);
+        
+        vector<ofxCvBlob> blobs = contourFinder.blobs;
+        vector<ofVec2f> points;
+        for(int i = 0; i < contourFinder.nBlobs; i++) {
+            for(int j = 0; j < blobs[i].nPts; j++) {
+                points.push_back(blobs[i].pts[j]);
+            }
+        }
+        if(points.size() > 0) {
+            int step = points.size() / 500;
+            if (step < 1) step = 1;
+            for(int i = 0; i < points.size(); i += step) {
+                float scaledX = -1 * ofMap(points[i].x, 0, kinect.getWidth(), -0.1, 0.1, true);
+                float scaledY = ofMap(points[i].y, 0, kinect.getHeight(), 0.1, -0.1, true);
+                spawnPoints.push_back(ofVec3f(scaledX, scaledY, 0.0));
+            }
+        }
+    }
+    
+    while (spawnPoints.size() < 200) {
+        spawnPoints.push_back(0.1 * ofVec3f(ofRandom(-1, 1), ofRandom(-1, 1), ofRandom(-1, 1)));
+    }
+    //        glPointSize(3);
+    //    ofPushMatrix();
+    //    // the projected points are 'upside down' and 'backwards'
+    //    //ofScale(1, -1, -1);
+    //    ofTranslate(0, 0, -2000); // center the points a bit
+    //    ofEnableDepthTest();
+    //    mesh.drawVertices();
+    //    ofDisableDepthTest();
+    //    ofPopMatrix();
 }

@@ -30,7 +30,8 @@ class ofApp : public ofBaseApp
 
 		void keyPressed(int key);
     
-        void drawPointCloud();
+        void setSpawnPointsPointCloud();
+        void setSpawnPointsContours();
 	
 		float					time;
 	
@@ -65,6 +66,12 @@ class ofApp : public ofBaseApp
         vector<ofVec3f> spawnPoints;
 
         ofImage img;
+    
+        ofxCvGrayscaleImage grayImage;
+        ofxCvGrayscaleImage grayThreshNear;
+        ofxCvGrayscaleImage grayThreshFar;
+    
+        ofxCvContourFinder contourFinder;
     
         ofxCv::FlowFarneback flowFinder;
             
