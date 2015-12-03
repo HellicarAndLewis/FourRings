@@ -197,8 +197,8 @@ void ParticleSystemGPU::draw( ofCamera* _camera )
 }
 
 void ParticleSystemGPU::modifyByVector( ofVec2f flow ) {
-    float flowX = ofMap(flow.x, 10, -10, baseSpeed.getMin().x, baseSpeed.getMax().x, true);
-    float flowY = ofMap(flow.y, 10, -10, baseSpeed.getMin().y, baseSpeed.getMax().y, true);
+    float flowX = ofMap(flow.x, 5, -5, baseSpeed.getMin().x, baseSpeed.getMax().x, true);
+    float flowY = ofMap(flow.y, 5, -5, baseSpeed.getMin().y, baseSpeed.getMax().y, true);
     
     float newX = baseSpeedInfluence.get().x * flowX + (1 - baseSpeedInfluence.get().x) * baseSpeed.get().x;
     float newY = baseSpeedInfluence.get().y * flowY + (1 - baseSpeedInfluence.get().y) * baseSpeed.get().y;

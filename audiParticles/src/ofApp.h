@@ -53,6 +53,7 @@ class ofApp : public ofBaseApp
         ofDirectory elementsDir;
 
 		bool					drawGui;
+        bool                    drawCam;
     
         enum INPUT {
             KINECT,

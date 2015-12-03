@@ -1,5 +1,5 @@
 <Main>
-	<Particle_Max_Age>1.26667</Particle_Max_Age>
+	<Particle_Max_Age>1.26</Particle_Max_Age>
 	<Noise_Magnitude>0.4279</Noise_Magnitude>
 	<Noise_Position_Scale>9.6004</Noise_Position_Scale>
 	<Noise_Time_Scale>0.56377</Noise_Time_Scale>
@@ -16,7 +16,7 @@
 	<Particle_Opacity_Scale>0.786667</Particle_Opacity_Scale>
 	<Light_Position>-1.05442, 1.66667, -0.85034</Light_Position>
 	<Light_Look_At>0.0340133, -0.340136, -0.680272</Light_Look_At>
-    <Camera_Pos>-0.00315487, -0.116689, 0.205051</Camera_Pos>
+    <Camera_Pos>0.00630885, -0.116689, 0.32808</Camera_Pos>
     <Foreground_Path/>
     <Background_Path/>
     <Foreground_Color>255, 255, 255, 255</Foreground_Color>

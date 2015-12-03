@@ -1,5 +1,5 @@
 <Main>
-	<Particle_Max_Age>1.8</Particle_Max_Age>
+	<Particle_Max_Age>1.26</Particle_Max_Age>
 	<Noise_Magnitude>0.4478</Noise_Magnitude>
 	<Noise_Position_Scale>1.7083</Noise_Position_Scale>
 	<Noise_Time_Scale>0.62038</Noise_Time_Scale>

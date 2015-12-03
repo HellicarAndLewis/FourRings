@@ -27,6 +27,8 @@ void ofApp::setup()
 
 	drawGui = false;
     
+    drawCam = false;
+    
     //Setup the videoGrabber
     grabber = new ofVideoGrabber();
     
@@ -175,15 +177,16 @@ void ofApp::draw()
         //switch for which input we're using
         switch (input) {
             case KINECT:
+                ofPushMatrix();
                 ofTranslate(0, HEIGHT - kinect.getHeight());
-                //kinect.draw(0, 0, kinect.getWidth(), kinect.getHeight());
                 ofTranslate(kinect.getWidth(), 0);
                 kinect.drawDepth(0, 0, kinect.getWidth(), kinect.getHeight());
-                contourFinder.draw();
+//                contourFinder.draw();
 //                ofScale(-1, 1);
 //                kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
 //                kinect.drawDepth(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
 //                contourFinder.draw(-WIDTH/2 - kinect.getWidth(), HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
+                ofPopMatrix();
                 break;
             case CAMERA:
                 ofScale(-1, 1);
@@ -192,6 +195,13 @@ void ofApp::draw()
                 break;
         }
 	}
+    if( drawCam ) {
+        ofPushMatrix();
+        ofTranslate(kinect.getWidth(), HEIGHT - kinect.getHeight());
+        ofScale(-1, 1);
+        kinect.draw(0, 0, kinect.getWidth(), kinect.getHeight());
+        ofPopMatrix();
+    }
 	
 	ofDisableDepthTest();
 	fontSmall.drawStringShadowed(ofToString(ofGetFrameRate(),2), ofGetWidth()-35, ofGetHeight() - 6, ofColor::whiteSmoke, ofColor::black );
@@ -206,15 +216,23 @@ void ofApp::keyPressed(int key)
 	{
 		drawGui = !drawGui;
 	}
+    if( key == 'c' )
+    {
+        drawCam = !drawCam;
+    }
 	else if( key == 'f' )
 	{
 		ofToggleFullscreen();
 	}
 	else if( key == OF_KEY_LEFT  )
 	{
+        output--;
+        if(output <= 0) output = 0;
 	}
 	else if( key == OF_KEY_RIGHT  )
 	{
+        output++;
+        if(output >= elementsDir.numFiles()) output = elementsDir.numFiles() - 1;
 	}
     else if( key == ' ' )
     {

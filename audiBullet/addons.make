@@ -1,0 +1,8 @@
+ofxGui
+ofxKinect
+ofxOpenCv
+ofxAutoReloadedShader
+ofxBullet
+ofxCv
+ofxIntegrator
+ofxWaterRipple
