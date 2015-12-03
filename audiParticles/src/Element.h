@@ -13,6 +13,7 @@
 #include "ParticleSystemGPU.h"
 
 struct element {
+    string name;
     ofVec2f baseSpeedInfluence;
     float particleMaxAge;
     float noiseMagnitude;
@@ -25,6 +26,8 @@ struct element {
     float particleSize;
     float timeStep;
     ofVec3f cameraPos;
+    bool kinectSpawn;
+    float spawnFidelity;
     
     ofImage foreground;
     ofImage background;
@@ -33,9 +36,9 @@ struct element {
     
     void saveToFile(string xmlSettingsPath);
     
-    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam);
+    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn);
     
-    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam);
+    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn);
     
     void updateFromFlow(ofVec3f flow);
 };

@@ -48,6 +48,7 @@ class ofApp : public ofBaseApp
         ofParameter<bool>       kinectSpawn;
         ofParameter<int>        nearClip;
         ofParameter<int>        farClip;
+        ofParameter<float>      contourFidelity;
 	
         ofDirectory elementsDir;
 

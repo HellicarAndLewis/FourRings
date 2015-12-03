@@ -23,5 +23,7 @@
     <Background_Color>209.0, 8, 4, 255</Background_Color>
     <Time_Step>0.00116667</Time_Step>
     <Wind_Influence>1.0, 0.0</Wind_Influence>
+    <Spawn_Fidelity>0.813333</Spawn_Fidelity>
+    <Kinect_Spawn>0</Kinect_Spawn>
 <Main/>
 </Main>

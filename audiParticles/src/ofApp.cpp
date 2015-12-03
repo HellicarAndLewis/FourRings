@@ -85,7 +85,7 @@ void ofApp::setup()
 void ofApp::update()
 {
     if(output != lastOutput) {
-        elements[output].setToParticleSystem(&particles, &camera);
+        elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn);
         lastOutput = output;
     }
 	// Update time, this let's us hit space and slow down time, even reverse it.
@@ -165,12 +165,13 @@ void ofApp::draw()
         ofSetColor(particles.foregroundColor);
         elements[output].foreground.draw(0, 0, WIDTH, HEIGHT);
         ofPopStyle();
-    }
+    }       
 
 	if( drawGui )
 	{
 		particles.gui.draw();
         gui.draw();
+        fontSmall.drawStringShadowed(elements[output].name, ofGetWidth()/2, 10);
         //switch for which input we're using
         switch (input) {
             case KINECT:
@@ -217,7 +218,7 @@ void ofApp::keyPressed(int key)
 	}
     else if( key == ' ' )
     {
-        elements[output].setFromCurrentSystem(&particles, &camera);
+        elements[output].setFromCurrentSystem(&particles, &camera, &kinectSpawn);
         elements[output].saveToFile(elementsDir.getPath(output));
     }
     
@@ -310,7 +311,7 @@ void ofApp::setSpawnPointsContours() {
             }
         }
         if(points.size() > 0) {
-            int step = points.size() / 500;
+            int step = points.size() / 200;
             if (step < 1) step = 1;
             for(int i = 0; i < points.size(); i += step) {
                 float scaledX = -1 * ofMap(points[i].x, 0, kinect.getWidth(), -0.1, 0.1, true);
@@ -323,13 +324,4 @@ void ofApp::setSpawnPointsContours() {
     while (spawnPoints.size() < 200) {
         spawnPoints.push_back(0.1 * ofVec3f(ofRandom(-1, 1), ofRandom(-1, 1), ofRandom(-1, 1)));
     }
-    //        glPointSize(3);
-    //    ofPushMatrix();
-    //    // the projected points are 'upside down' and 'backwards'
-    //    //ofScale(1, -1, -1);
-    //    ofTranslate(0, 0, -2000); // center the points a bit
-    //    ofEnableDepthTest();
-    //    mesh.drawVertices();
-    //    ofDisableDepthTest();
-    //    ofPopMatrix();
 }

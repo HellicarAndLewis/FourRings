@@ -51,6 +51,7 @@ class ParticleSystemGPU
         ofParameter<ofVec2f>    baseSpeedInfluence;
         ofParameter<ofColor>    foregroundColor;
         ofParameter<ofColor>    backgroundColor;
+        ofParameter<float>      spawnFidelity;
 		
 		ofParameter<ofVec3f>	baseSpeed;
 		

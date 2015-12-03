@@ -23,6 +23,7 @@ uniform float u_noisePersistence = 0.2;
 uniform vec3 u_wind = vec3( 0.5, 0.0, 0.0 );
 uniform vec3 u_spawnPoints[MAX_SPAWN_POINTS];
 uniform int u_numSpawnPoints;
+uniform float u_contourFidelity;
 
 const int OCTAVES = 3;
 
@@ -48,9 +49,9 @@ void main (void)
         float randomIndexf = map(randomNum, 0.0, 1.0, 0.0, u_numSpawnPoints);
         int randomIndex = int(randomIndexf);
         pos = u_spawnPoints[randomIndex];
-        pos.x += map(rand(texCoord + pos.xy), 0.0, 1.0, -0.005, 0.005);
-        pos.y += map(rand(texCoord.xy + pos.yz), 0.0, 1.0, -0.005, 0.005);
-        pos.x += map(rand(texCoord.yx + pos.yz), 0.0, 1.0, -0.005, 0.005);
+        pos.x += (1.0 - u_contourFidelity) * map(rand(texCoord + pos.xy), 0.0, 1.0, -0.005, 0.005);
+        pos.y += (1.0 - u_contourFidelity) * map(rand(texCoord.xy + pos.yz), 0.0, 1.0, -0.005, 0.005);
+        pos.x += (1.0 - u_contourFidelity) * map(rand(texCoord.yx + pos.yz), 0.0, 1.0, -0.005, 0.005);
 
 	}
 	

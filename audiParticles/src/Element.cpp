@@ -12,25 +12,10 @@ void element::loadFromFile(string xmlSettingsPath) {
     ofXml xml;
     xml.load(xmlSettingsPath);
     
+    name = ofSplitString(xmlSettingsPath, "/")[2];
+    
     foreground.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
     background.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA);
-
-    //    gui.setup("Element", xmlSettingsPath);
-//    
-//    gui.add( particleMaxAge.set("Particle_Max_Age", ofToFloat(xml.getValue("Particle_Max_Age")), 0.0f, 20.0f));
-//    gui.add( particleMaxAge.set("Particle Max Age", 10.0f, 0.0f, 20.0f) );
-//    gui.add( noiseMagnitude.set("Noise Magnitude", ofToFloat(xml.getValue("Noise_Magnitude")), 0.01f, 2.0f) );
-//    gui.add( noisePositionScale.set("Noise Position Scale", ofToFloat(xml.getValue("Noise_Position_Scale")), 0.01f, 10.0f) );
-//    gui.add( noiseTimeScale.set("Noise Time Scale", ofToFloat(xml.getValue("Noise_Time_Scale")), 0.001f, 1.0f) );
-//    gui.add( noisePersistence.set("Noise Persistence", ofToFloat(xml.getValue("Noise_Persistence")), 0.001f, 1.0f) );
-//    
-//    gui.add( baseSpeed.set("Wind", ofVec3f(ofToFloat(baseSpeedSplit[0]), ofToFloat(baseSpeedSplit[1]), ofToFloat(baseSpeedSplit[2])), ofVec3f(-2,-2,-2), ofVec3f(2,2,2)) );
-//    
-//    gui.add( startColor.set("Start Color", ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3])), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
-//    
-//    gui.add( endColor.set("End Color", ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3])), ofColor(0,0,0,0), ofColor(255,255,255,255)) );
-//    
-//    gui.add( particleSize.set("Particle Size", ofToFloat(xml.getValue("Particle_Size")), 0.0001f, 0.05f) );
     
     particleMaxAge = ofToFloat(xml.getValue("Particle_Max_Age"));
     noiseMagnitude = ofToFloat(xml.getValue("Noise_Magnitude"));
@@ -48,7 +33,7 @@ void element::loadFromFile(string xmlSettingsPath) {
     
     colorSplit = ofSplitString(xml.getValue("End_Color"), ",");
     endColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
-//
+
     colorSplit = ofSplitString(xml.getValue("Background_Color"), ",");
     backgroundColor = ofColor(ofToFloat(colorSplit[0]), ofToFloat(colorSplit[1]), ofToFloat(colorSplit[2]), ofToFloat(colorSplit[3]));
     
@@ -63,6 +48,10 @@ void element::loadFromFile(string xmlSettingsPath) {
     
     foregroundLoaded = foreground.loadImage(xml.getValue("Foreground_Path"));
     backgroundLoaded = background.loadImage(xml.getValue("Background_Path"));
+    
+    spawnFidelity = ofToFloat(xml.getValue("Spawn_Fidelity"));
+    
+    kinectSpawn = ofToBool(xml.getValue("Kinect_Spawn"));
 }
 
 void element::saveToFile(string xmlSettingsPath) {
@@ -82,10 +71,12 @@ void element::saveToFile(string xmlSettingsPath) {
     xml.setValue("Foreground_Color", ofToString(foregroundColor));
     xml.setValue("Background_Color", ofToString(backgroundColor));
     xml.setValue("Wind_Influence", ofToString(baseSpeedInfluence));
+    xml.setValue("Spawn_Fidelity", ofToString(spawnFidelity));
+    xml.setValue("Kinect_Spawn", ofToString(kinectSpawn));
     xml.save(xmlSettingsPath);
 }
 
-void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam) {
+void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn) {
     particleMaxAge = particleSystem->particleMaxAge;
     noiseMagnitude = particleSystem->noiseMagnitude;
     noisePositionScale = particleSystem->noisePositionScale;
@@ -100,9 +91,11 @@ void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPe
     foregroundColor = particleSystem->foregroundColor;
     backgroundColor = particleSystem->backgroundColor;
     baseSpeedInfluence = particleSystem->baseSpeedInfluence;
+    spawnFidelity = particleSystem->spawnFidelity;
+    kinectSpawn = *_kinectSpawn;
 }
 
-void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam) {
+void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn) {
     particleSystem->particleMaxAge = particleMaxAge;
     particleSystem->noiseMagnitude = noiseMagnitude;
     particleSystem->noisePositionScale = noisePositionScale;
@@ -117,4 +110,6 @@ void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPer
     particleSystem->foregroundColor = foregroundColor;
     particleSystem->backgroundColor = backgroundColor;
     particleSystem->baseSpeedInfluence = baseSpeedInfluence;
+    particleSystem->spawnFidelity = spawnFidelity;
+    *_kinectSpawn = kinectSpawn;
 }
