@@ -1,5 +1,12 @@
 # FourRings
 
+Built with OS X openFrameworks 0.8.4
+http://openframeworks.cc/download/older.html
+
 A series of experiments with Kinect and Elemental Effects, to be displayed in 9:16 format (portrait)
 
-Built with oF 0.8.4
+To download addons from the command line, simply run the command:
+
+./clone_addons.sh
+
+In the project directory.
