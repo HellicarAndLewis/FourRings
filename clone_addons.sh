@@ -24,10 +24,13 @@ ${CLONE}Bentleyj/ofxIntegrator
 # git checkout xxx
 # cd ..
 ${CLONE}andreasmuller/ofxAutoReloadedShader
+cd ofxAutoReloadedShader
+git checkout master_0.8.4
+cd ..
 ${CLONE}kylemcdonald/ofxCv
-#cd ofxCv
-#git checkout develop
-#cd ..
+cd ofxCv
+git checkout 0.8.4
+cd ..
 
 # final step is to cd back to the start dir
 cd ../apps/FourRings
