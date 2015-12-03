@@ -20,6 +20,8 @@
 
 #include "element.h"
 
+#include "ofxWaterRipple.h"
+
 class ofApp : public ofBaseApp
 {
 	public:
@@ -29,6 +31,7 @@ class ofApp : public ofBaseApp
 		void draw();
 
 		void keyPressed(int key);
+        void mouseDragged(int x, int y, int button);
     
         void setSpawnPointsPointCloud();
         void setSpawnPointsContours();
@@ -62,7 +65,9 @@ class ofApp : public ofBaseApp
         };
         
         ofxKinect kinect;
-        
+    
+        ofxWaterRipple agua;
+    
         ofVideoGrabber* grabber;
     
         vector<ofVec3f> spawnPoints;
@@ -76,7 +81,9 @@ class ofApp : public ofBaseApp
         ofxCvContourFinder contourFinder;
     
         ofxCv::FlowFarneback flowFinder;
-            
+    
+        ofFbo fbo;
+    
         int lastOutput;
         
         vector<element> elements;

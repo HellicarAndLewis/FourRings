@@ -41,6 +41,7 @@ void ofApp::setup()
     
     kinect.open();
     
+    //setup our FBO
     // print the intrinsic IR sensor values
     if(kinect.isConnected()) {
         ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
@@ -79,6 +80,8 @@ void ofApp::setup()
     
     ofSetWindowShape(1080, 1920);
     ofSetWindowPosition(ofGetScreenWidth(), 0);
+//    fbo.allocate(WIDTH, HEIGHT);
+
 }
 
 
@@ -86,6 +89,7 @@ void ofApp::setup()
 //
 void ofApp::update()
 {
+     agua.update(&fbo.getTextureReference());
     if(output != lastOutput) {
         elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn);
         lastOutput = output;
@@ -160,7 +164,7 @@ void ofApp::draw()
     
    // kinect->draw(420, 10, 400, 300);
 	
-	int size = 196;
+//	int size = 196;
 //	particles.particleDataFbo.source()->getTextureReference(0).draw( 0,	 0, size, size );
     if(elements[output].foregroundLoaded) {
         ofPushStyle();
@@ -205,7 +209,7 @@ void ofApp::draw()
 	
 	ofDisableDepthTest();
 	fontSmall.drawStringShadowed(ofToString(ofGetFrameRate(),2), ofGetWidth()-35, ofGetHeight() - 6, ofColor::whiteSmoke, ofColor::black );
-    
+    fbo.end();
 }
 
 //-----------------------------------------------------------------------------------------
