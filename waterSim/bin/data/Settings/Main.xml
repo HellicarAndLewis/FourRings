@@ -1,0 +1,9 @@
+<Main>
+	<Near_Clip>206</Near_Clip>
+	<Far_Clip>200</Far_Clip>
+<Main/>
+<Depth>117</Depth>
+	<radius>50</radius>
+	<Use_Centroid>0</Use_Centroid>
+	<Use_Contours>1</Use_Contours>
+</Main>

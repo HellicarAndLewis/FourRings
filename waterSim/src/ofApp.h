@@ -5,6 +5,7 @@
 
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -12,6 +13,8 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+        void disturbOnContours(vector<ofxCvBlob> blobs, ofxWaterRipple* agua);
+        void disturbOnCentroid(vector<ofxCvBlob> blobs, ofxWaterRipple* agua);
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -22,9 +25,20 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
-
+    
+        bool drawGui;
+        bool drawCam;
+    
 		ofxWaterRipple agua;
+    
+        ofxPanel gui;
+        ofParameter<int> nearClip;
+        ofParameter<int> farClip;
+        ofParameter<int> profundidad;
+        ofParameter<int> radio;
+        ofParameter<bool> useCentroid;
+        ofParameter<bool> useContours;
+
     
         ofImage img;
         ofxCvGrayscaleImage grayImage, grayThreshNear, grayThreshFar;

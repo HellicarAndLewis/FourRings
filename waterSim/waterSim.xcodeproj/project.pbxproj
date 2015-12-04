@@ -41,6 +41,14 @@
 		1A288C531C10A2AF00D8A173 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288BE21C10A2AF00D8A173 /* ofxCvImage.cpp */; };
 		1A288C541C10A2AF00D8A173 /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288BE41C10A2AF00D8A173 /* ofxCvShortImage.cpp */; };
 		1A288C551C10A2AF00D8A173 /* opencv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A288C4D1C10A2AF00D8A173 /* opencv.a */; };
+		1A288C691C11AF6400D8A173 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C581C11AF6400D8A173 /* ofxBaseGui.cpp */; };
+		1A288C6A1C11AF6400D8A173 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C5A1C11AF6400D8A173 /* ofxButton.cpp */; };
+		1A288C6B1C11AF6400D8A173 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C5D1C11AF6400D8A173 /* ofxGuiGroup.cpp */; };
+		1A288C6C1C11AF6400D8A173 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C5F1C11AF6400D8A173 /* ofxLabel.cpp */; };
+		1A288C6D1C11AF6400D8A173 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C611C11AF6400D8A173 /* ofxPanel.cpp */; };
+		1A288C6E1C11AF6400D8A173 /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C631C11AF6400D8A173 /* ofxSlider.cpp */; };
+		1A288C6F1C11AF6400D8A173 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C651C11AF6400D8A173 /* ofxSliderGroup.cpp */; };
+		1A288C701C11AF6400D8A173 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A288C671C11AF6400D8A173 /* ofxToggle.cpp */; };
 		1A6D76AA1C106F6300C3E308 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D76A71C106F6300C3E308 /* main.cpp */; };
 		1A6D76AB1C106F6300C3E308 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D76A81C106F6300C3E308 /* ofApp.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
@@ -256,6 +264,23 @@
 		1A288C491C10A2AF00D8A173 /* tracking.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tracking.hpp; sourceTree = "<group>"; };
 		1A288C4A1C10A2AF00D8A173 /* video.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video.hpp; sourceTree = "<group>"; };
 		1A288C4D1C10A2AF00D8A173 /* opencv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = opencv.a; sourceTree = "<group>"; };
+		1A288C581C11AF6400D8A173 /* ofxBaseGui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
+		1A288C591C11AF6400D8A173 /* ofxBaseGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
+		1A288C5A1C11AF6400D8A173 /* ofxButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxButton.cpp; sourceTree = "<group>"; };
+		1A288C5B1C11AF6400D8A173 /* ofxButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxButton.h; sourceTree = "<group>"; };
+		1A288C5C1C11AF6400D8A173 /* ofxGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGui.h; sourceTree = "<group>"; };
+		1A288C5D1C11AF6400D8A173 /* ofxGuiGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiGroup.cpp; sourceTree = "<group>"; };
+		1A288C5E1C11AF6400D8A173 /* ofxGuiGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGuiGroup.h; sourceTree = "<group>"; };
+		1A288C5F1C11AF6400D8A173 /* ofxLabel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLabel.cpp; sourceTree = "<group>"; };
+		1A288C601C11AF6400D8A173 /* ofxLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxLabel.h; sourceTree = "<group>"; };
+		1A288C611C11AF6400D8A173 /* ofxPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPanel.cpp; sourceTree = "<group>"; };
+		1A288C621C11AF6400D8A173 /* ofxPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxPanel.h; sourceTree = "<group>"; };
+		1A288C631C11AF6400D8A173 /* ofxSlider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSlider.cpp; sourceTree = "<group>"; };
+		1A288C641C11AF6400D8A173 /* ofxSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSlider.h; sourceTree = "<group>"; };
+		1A288C651C11AF6400D8A173 /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSliderGroup.cpp; sourceTree = "<group>"; };
+		1A288C661C11AF6400D8A173 /* ofxSliderGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSliderGroup.h; sourceTree = "<group>"; };
+		1A288C671C11AF6400D8A173 /* ofxToggle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxToggle.cpp; sourceTree = "<group>"; };
+		1A288C681C11AF6400D8A173 /* ofxToggle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxToggle.h; sourceTree = "<group>"; };
 		1A6D76A71C106F6300C3E308 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1A6D76A81C106F6300C3E308 /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
 		1A6D76A91C106F6300C3E308 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofApp.h; sourceTree = "<group>"; };
@@ -845,6 +870,39 @@
 			path = osx;
 			sourceTree = "<group>";
 		};
+		1A288C561C11AF6400D8A173 /* ofxGui */ = {
+			isa = PBXGroup;
+			children = (
+				1A288C571C11AF6400D8A173 /* src */,
+			);
+			name = ofxGui;
+			sourceTree = "<group>";
+		};
+		1A288C571C11AF6400D8A173 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1A288C581C11AF6400D8A173 /* ofxBaseGui.cpp */,
+				1A288C591C11AF6400D8A173 /* ofxBaseGui.h */,
+				1A288C5A1C11AF6400D8A173 /* ofxButton.cpp */,
+				1A288C5B1C11AF6400D8A173 /* ofxButton.h */,
+				1A288C5C1C11AF6400D8A173 /* ofxGui.h */,
+				1A288C5D1C11AF6400D8A173 /* ofxGuiGroup.cpp */,
+				1A288C5E1C11AF6400D8A173 /* ofxGuiGroup.h */,
+				1A288C5F1C11AF6400D8A173 /* ofxLabel.cpp */,
+				1A288C601C11AF6400D8A173 /* ofxLabel.h */,
+				1A288C611C11AF6400D8A173 /* ofxPanel.cpp */,
+				1A288C621C11AF6400D8A173 /* ofxPanel.h */,
+				1A288C631C11AF6400D8A173 /* ofxSlider.cpp */,
+				1A288C641C11AF6400D8A173 /* ofxSlider.h */,
+				1A288C651C11AF6400D8A173 /* ofxSliderGroup.cpp */,
+				1A288C661C11AF6400D8A173 /* ofxSliderGroup.h */,
+				1A288C671C11AF6400D8A173 /* ofxToggle.cpp */,
+				1A288C681C11AF6400D8A173 /* ofxToggle.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxGui/src;
+			sourceTree = "<group>";
+		};
 		8DD1EB16DB5D47A7003DC31E /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -863,6 +921,7 @@
 				1A288B1D1C109D0B00D8A173 /* ofxCv */,
 				1A288B551C109E3900D8A173 /* ofxKinect */,
 				1A288BD41C10A2AF00D8A173 /* ofxOpenCv */,
+				1A288C561C11AF6400D8A173 /* ofxGui */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1036,18 +1095,23 @@
 				1A288B471C109D0B00D8A173 /* ETF.cpp in Sources */,
 				1A288B4F1C109D0B00D8A173 /* ObjectFinder.cpp in Sources */,
 				1A288B531C109D0B00D8A173 /* Wrappers.cpp in Sources */,
+				1A288C691C11AF6400D8A173 /* ofxBaseGui.cpp in Sources */,
 				EEB56C74A4D8B973DCD83DAD /* GpuCompute.cpp in Sources */,
+				1A288C701C11AF6400D8A173 /* ofxToggle.cpp in Sources */,
 				E4FDDBA960200395E42B3C85 /* ofxWaterRipple.cpp in Sources */,
 				1A288BCC1C109E3900D8A173 /* core.c in Sources */,
 				1A288B4A1C109D0B00D8A173 /* ContourFinder.cpp in Sources */,
+				1A288C6A1C11AF6400D8A173 /* ofxButton.cpp in Sources */,
 				1A288BC91C109E3900D8A173 /* ofxKinect.cpp in Sources */,
 				1A288B491C109D0B00D8A173 /* Calibration.cpp in Sources */,
 				1A288B501C109D0B00D8A173 /* RunningBackground.cpp in Sources */,
 				1A288C541C10A2AF00D8A173 /* ofxCvShortImage.cpp in Sources */,
 				1A6D76AA1C106F6300C3E308 /* main.cpp in Sources */,
 				1A288C521C10A2AF00D8A173 /* ofxCvHaarFinder.cpp in Sources */,
+				1A288C6F1C11AF6400D8A173 /* ofxSliderGroup.cpp in Sources */,
 				1A288C511C10A2AF00D8A173 /* ofxCvGrayscaleImage.cpp in Sources */,
 				1A288B4E1C109D0B00D8A173 /* Kalman.cpp in Sources */,
+				1A288C6D1C11AF6400D8A173 /* ofxPanel.cpp in Sources */,
 				1A288C501C10A2AF00D8A173 /* ofxCvFloatImage.cpp in Sources */,
 				1A288BD11C109E3900D8A173 /* tilt.c in Sources */,
 				1A288BCF1C109E3900D8A173 /* loader.c in Sources */,
@@ -1057,10 +1121,13 @@
 				1A288BCB1C109E3900D8A173 /* cameras.c in Sources */,
 				1A288BD21C109E3900D8A173 /* usb_libusb10.c in Sources */,
 				1A288B4D1C109D0B00D8A173 /* Helpers.cpp in Sources */,
+				1A288C6C1C11AF6400D8A173 /* ofxLabel.cpp in Sources */,
 				1A288C531C10A2AF00D8A173 /* ofxCvImage.cpp in Sources */,
 				1A288BCD1C109E3900D8A173 /* flags.c in Sources */,
+				1A288C6B1C11AF6400D8A173 /* ofxGuiGroup.cpp in Sources */,
 				1A288B4B1C109D0B00D8A173 /* Distance.cpp in Sources */,
 				1A288BCE1C109E3900D8A173 /* keep_alive.c in Sources */,
+				1A288C6E1C11AF6400D8A173 /* ofxSlider.cpp in Sources */,
 				1A288BC81C109E3900D8A173 /* ofxKinectExtras.cpp in Sources */,
 				1A288C4E1C10A2AF00D8A173 /* ofxCvColorImage.cpp in Sources */,
 				1A288B481C109D0B00D8A173 /* fdog.cpp in Sources */,
@@ -1236,7 +1303,7 @@
 					"/Users/james/Documents/openFrameworksStatic/addons/ofxKinect/libs/libusb-1.0/lib/osx",
 				);
 				PRODUCT_NAME = waterSimDebug;
-				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxKinect/libs/libusb-win32/include/ ../../../addons/ofxOpenCv/libs/opencv/include/ ../../../addons/ofxKinect/libs/libfreenect/include/ ../../../addons/ofxCv/../ofxOpenCv/libs/opencv/include ../../../addons/ofxKinect/libs/libusb-1.0/include/ ../../../addons/ofxCv/libs/ofxCv/include/";
+				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxKinect/libs/libusb-win32/include/ ../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxKinect/libs/libfreenect/include/ ../../../addons/ofxCv/../ofxOpenCv/libs/opencv/include ../../../addons/ofxKinect/libs/libusb-1.0/include/ ../../../addons/ofxOpenCv/libs/opencv/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1324,7 +1391,7 @@
 					"/Users/james/Documents/openFrameworksStatic/addons/ofxKinect/libs/libusb-1.0/lib/osx",
 				);
 				PRODUCT_NAME = waterSim;
-				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxKinect/libs/libusb-win32/include/ ../../../addons/ofxOpenCv/libs/opencv/include/ ../../../addons/ofxKinect/libs/libfreenect/include/ ../../../addons/ofxCv/../ofxOpenCv/libs/opencv/include ../../../addons/ofxKinect/libs/libusb-1.0/include/ ../../../addons/ofxCv/libs/ofxCv/include/";
+				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxKinect/libs/libusb-win32/include/ ../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxKinect/libs/libfreenect/include/ ../../../addons/ofxCv/../ofxOpenCv/libs/opencv/include ../../../addons/ofxKinect/libs/libusb-1.0/include/ ../../../addons/ofxOpenCv/libs/opencv/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

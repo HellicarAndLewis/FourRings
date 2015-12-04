@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp
 		void draw();
 
 		void keyPressed(int key);
-        void mouseDragged(int x, int y, int button);
+//        void mouseDragged(int x, int y, int button);
     
         void setSpawnPointsPointCloud();
         void setSpawnPointsContours();

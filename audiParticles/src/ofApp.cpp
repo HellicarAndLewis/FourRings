@@ -89,7 +89,7 @@ void ofApp::setup()
 //
 void ofApp::update()
 {
-     agua.update(&fbo.getTextureReference());
+//     agua.update(&fbo.getTextureReference());
     if(output != lastOutput) {
         elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn);
         lastOutput = output;
