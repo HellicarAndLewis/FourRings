@@ -31,6 +31,7 @@ ${CLONE}kylemcdonald/ofxCv
 cd ofxCv
 git checkout 0.8.4
 cd ..
+${CLONE}HellicarAndLewis/ofxWaterRipple
 
 # final step is to cd back to the start dir
 cd ../apps/FourRings
