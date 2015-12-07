@@ -24,6 +24,8 @@ void element::loadFromFile(string xmlSettingsPath) {
     noiseTimeScale = ofToFloat(xml.getValue("Noise_Time_Scale"));
     particleSize = ofToFloat(xml.getValue("Particle_Size"));
     timeStep = ofToFloat(xml.getValue("Time_Step"));
+    vignetteOffset = ofToFloat(xml.getValue("Vignette_Offset"));
+    
     
     vector<string> baseSpeedSplit = ofSplitString(xml.getValue("Wind"), ",");
     baseSpeed = ofVec3f(ofToFloat(baseSpeedSplit[0]), ofToFloat(baseSpeedSplit[1]), ofToFloat(baseSpeedSplit[2]));
@@ -73,10 +75,11 @@ void element::saveToFile(string xmlSettingsPath) {
     xml.setValue("Wind_Influence", ofToString(baseSpeedInfluence));
     xml.setValue("Spawn_Fidelity", ofToString(spawnFidelity));
     xml.setValue("Kinect_Spawn", ofToString(kinectSpawn));
+    xml.setValue("Vignette_Offset", ofToString(vignetteOffset));
     xml.save(xmlSettingsPath);
 }
 
-void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn) {
+void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset) {
     particleMaxAge = particleSystem->particleMaxAge;
     noiseMagnitude = particleSystem->noiseMagnitude;
     noisePositionScale = particleSystem->noisePositionScale;
@@ -93,9 +96,10 @@ void element::setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPe
     baseSpeedInfluence = particleSystem->baseSpeedInfluence;
     spawnFidelity = particleSystem->spawnFidelity;
     kinectSpawn = *_kinectSpawn;
+    vignetteOffset = *_vignetteOffset;
 }
 
-void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn) {
+void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset) {
     particleSystem->particleMaxAge = particleMaxAge;
     particleSystem->noiseMagnitude = noiseMagnitude;
     particleSystem->noisePositionScale = noisePositionScale;
@@ -112,4 +116,5 @@ void element::setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPer
     particleSystem->baseSpeedInfluence = baseSpeedInfluence;
     particleSystem->spawnFidelity = spawnFidelity;
     *_kinectSpawn = kinectSpawn;
+    *_vignetteOffset = vignetteOffset;
 }

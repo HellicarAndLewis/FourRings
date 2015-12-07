@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 bool shouldRemoveRigidBody( const shared_ptr<ofxBulletRigidBody>& ab ) {
-    return ab->getPosition().x > 10;
+    return ab->getPosition().x > 50;
 }
 
 bool shouldRemoveBunny( const shared_ptr<ofxBulletSoftTriMesh>& ab ) {
@@ -25,35 +25,90 @@ void ofApp::setup() {
     ground->setProperties(.25, .95);
 
     ground->add();
-
-    world.setGravity( ofVec3f(1.0, 1.0, 0.0));
+    
+    //setup the kinect
+    kinect.setRegistration(true);
+    kinect.init();
+    kinect.open();
+    
+    grayImage.allocate(kinect.getWidth(), kinect.getHeight());
+    grayThreshFar.allocate(kinect.getWidth(), kinect.getHeight());
+    grayThreshNear.allocate(kinect.getWidth(), kinect.getHeight());
+    
+    vignette.loadImage("Images/Vignette_white_001.png");
     
     // used from the OF examples/3d/pointPickerExample
-    mesh.load("lofi-bunny.ply");
+    //mesh.load("lofi-bunny.ply");
     
-    mesh.setMode( OF_PRIMITIVE_TRIANGLES );
+//    mesh.setMode( OF_PRIMITIVE_TRIANGLES );
+//    mesh.addVertex(ofVec3f(0, 0, 0));
+//    mesh.addVertex(ofVec3f(0, 0, bodyDepth));
+//    mesh.addVertex(ofVec3f(bodyHeight, 0, bodyDepth + offSet));
+//    
+//    mesh.addVertex(ofVec3f(0, 0, 0));
+//    mesh.addVertex(ofVec3f(0, 0, offSet));
+//    mesh.addVertex(ofVec3f(bodyHeight, 0, bodyDepth + offSet));
+//    
+//    mesh.addVertex(ofVec3f(0, bodyHeight, 0));
+//    mesh.addVertex(ofVec3f(0, bodyHeight, bodyDepth));    
+//    mesh.addVertex(ofVec3f(bodyHeight, bodyHeight, bodyDepth + offSet));
+//    
+//    mesh.addVertex(ofVec3f(0, bodyHeight, 0));
+//    mesh.addVertex(ofVec3f(0, bodyHeight, offSet));
+//    mesh.addVertex(ofVec3f(bodyHeight, bodyHeight, bodyDepth + offSet));
+
     camera.enableMouseInput();
+    
+    drawGui = false;
     
     string xmlSettingsPath = "Settings/Main.xml";
     gui.setup("Main", xmlSettingsPath);
     gui.add(camPos.set("Camera Position", ofVec3f(0, 0, 0), ofVec3f(-500, -500, -500), ofVec3f(500, 500, 500)));
     gui.add( bodyHeight.set("Body Height", 1.0, 0.0, 10.0));
     gui.add( bodyWidth.set("Body Width", 1.0, 0.0, 10.0));
-    gui.add( bodyDepth.set("Body Deptch", 1.0, 0.0, 10.0));
+    gui.add( bodyDepth.set("Body Depth", 1.0, 0.0, 10.0));
+    gui.add( spawnRate.set("Spawn Rate", 0.1, 0.0, 1.0));
+    gui.add( offSet.set("Offset", 0.0, 0.0, 10.0));
+    gui.add( gravity.set("Gravity", ofVec3f(1.0, 1.0, 0.0), ofVec3f(0.0, 0.0, 0.0), ofVec3f(2.0, 2.0, 2.0)));
+    gui.add( nearClip.set("Near Clip", 230, 0, 255) );
+    gui.add( farClip.set("Far Clip", 200, 0, 255) );
+    
+    world.setGravity( gravity );
 
     gui.loadFromFile(xmlSettingsPath);
     
-    camera.setDistance( 14 );
+    camera.setDistance( 1 );
     
     camera.setPosition(camPos);
-    camera.lookAt(ofVec3f(0, 0, 0));
+    camera.lookAt(ofVec3f(-5, 0, 0), ofVec3f(1., -1., 0.));
     
     light.setPosition( 0, -5, 0 );
+    
+    lastSpawn = ofGetElapsedTimeMillis();
+    
+    fbo.allocate(ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	world.update();
+    
+    kinect.update();
+    if(kinect.isFrameNew()) {
+        grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
+        grayImage.mirror(false, true);
+        grayThreshNear = grayImage;
+        grayThreshFar = grayImage;
+        grayThreshNear.threshold(nearClip, true);
+        grayThreshFar.threshold(farClip);
+        cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+        grayImage.flagImageChanged();
+        grayImage.resize(ofGetWidth(), ofGetHeight());
+        contourFinder.findContours(grayImage, 10, (kinect.width*kinect.height)/2, 20, false);
+        vector<ofxCvBlob> blobs = contourFinder.blobs;
+    }
+    
+    world.setGravity(gravity);
     
     ofRemove( rigidBodies, shouldRemoveRigidBody );
     ofRemove( bunnies, shouldRemoveBunny );
@@ -62,43 +117,41 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
     
-    //if(rigidBodies.size() < 200) {
+    int timeSinceLastSpawn = ofGetElapsedTimeMillis() - lastSpawn;
+    float inverseSpawnRate = 1.0 / spawnRate;
+    if((ofGetElapsedTimeMillis() - lastSpawn) > (1000 / spawnRate)) {
         shared_ptr< ofxBulletBox > ss( new ofxBulletBox() );
-        ss->create( world.world, ofVec3f(-25.0 + ofRandom(5), -10.0 + ofRandom(5), 0.0 + ofRandom(-5, 5)), 0.0, bodyWidth, bodyHeight, bodyDepth );
+        ss->create( world.world, ofVec3f(-35.0 + ofRandom(5), 0.0 + ofRandom(5), 0.0 + ofRandom(-5, 5)), 0.1, bodyWidth, bodyHeight, bodyDepth );
         ss->add();
         
         rigidBodies.push_back( ss );
-    //}
-
+        lastSpawn = ofGetElapsedTimeMillis();
+    }
     
+    fbo.begin();
+    ofClear(0, 0, 0);
     ofEnableDepthTest();
-    ofBackground( ofColor( 34,107,126 ) );
-    
+    ofBackground( ofColor( 255 ) );
     camera.begin();
     
 //    world.drawDebug();
     
     ofEnableLighting();
     light.enable();
-    ofSetColor( 0x000000 );
-    ground->draw();
+    ofSetColor( 255 );
+    //ground->draw();
     
-    ofSetHexColor( 0xFFFFFF );
+    ofSetColor( 0 );
     for( int i = 0; i < rigidBodies.size(); i++ ) {
         rigidBodies[i]->draw();
     }
     
-    ofSetLineWidth( 2 );
-    for( int i = 0; i < bunnies.size(); i++ ) {
-        ofSetHexColor( 0xDD3B49 );
-        bunnies[i]->draw();
-        ofSetHexColor( 0x3DABB7 );
-        bunnies[i]->getMesh().drawWireframe();
-    }
     ofSetLineWidth( 1 );
     
     light.disable();
     ofDisableLighting();
+    
+//    light.draw();
     
     camera.end();
     
@@ -110,8 +163,18 @@ void ofApp::draw() {
     
     camPos.set(camera.getPosition());
     
-    gui.draw();
-
+    if( drawGui ) {
+        gui.draw();
+        
+        grayImage.draw(0, ofGetHeight() - kinect.getHeight(), kinect.getWidth(), kinect.getHeight());
+        contourFinder.draw(0, ofGetHeight() - kinect.getHeight(), kinect.getWidth(), kinect.getHeight());
+    }
+    fbo.end();
+    
+    fbo.draw(0, 0);
+    ofSetColor(255);
+    //vignette.draw(0, 0, ofGetWidth(), ofGetHeight());
+    
 }
 
 //--------------------------------------------------------------
@@ -165,6 +228,10 @@ void ofApp::keyPressed(int key) {
             bunnies.erase( bunnies.begin() );
         }
     }
+    
+    if( key == OF_KEY_TAB ) {
+        drawGui = !drawGui;
+    }
 }
 
 //--------------------------------------------------------------
@@ -174,12 +241,15 @@ void ofApp::keyReleased(int key) {
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y) {
-	
+    float mouseX = ofMap(x, 0, ofGetWidth(), 10, -10);
+    float mouseY = ofMap(y, 0, ofGetHeight(), 10, -10);
+    
+    light.setPosition(mouseY, 0, mouseX);
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button) {
-	
+
 }
 
 //--------------------------------------------------------------

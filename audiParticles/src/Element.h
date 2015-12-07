@@ -28,6 +28,7 @@ struct element {
     ofVec3f cameraPos;
     bool kinectSpawn;
     float spawnFidelity;
+    float vignetteOffset;
     
     ofImage foreground;
     ofImage background;
@@ -36,9 +37,9 @@ struct element {
     
     void saveToFile(string xmlSettingsPath);
     
-    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn);
+    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset);
     
-    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn);
+    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset);
     
     void updateFromFlow(ofVec3f flow);
 };

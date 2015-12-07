@@ -99,7 +99,6 @@ void ofApp::disturbOnContours(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
     }
 }
 
-
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackground(0);

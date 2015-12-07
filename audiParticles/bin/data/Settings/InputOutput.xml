@@ -1,7 +1,10 @@
 <input_output>
 	<Input>0</Input>
-	<Element>0</Element>
+	<Element>3</Element>
 <input_output/>
 <Flow_Interaction>1</Flow_Interaction>
 	<Point_Cloud_Spawn>0</Point_Cloud_Spawn>
+<Kinect_Spawn_Near_Clip>230</Kinect_Spawn_Near_Clip>
+	<Kinect_Spawn_Far_Clip>70</Kinect_Spawn_Far_Clip>
+	<Vignette_Offset>96.6667</Vignette_Offset>
 </input_output>

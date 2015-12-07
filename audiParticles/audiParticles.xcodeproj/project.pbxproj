@@ -121,7 +121,6 @@
 		15F2C6477A769C03A56D1401 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxSlider.cpp; path = ../../../addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
 		178547E33CE398C7B59F08AB /* ContourFinder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ContourFinder.h; path = ../../../addons/ofxCv/libs/ofxCv/include/ofxCv/ContourFinder.h; sourceTree = SOURCE_ROOT; };
 		17E65988300FBD9AAA2CD0CA /* ofxGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGui.h; path = ../../../addons/ofxGui/src/ofxGui.h; sourceTree = SOURCE_ROOT; };
-		1A1DE0761C0C5CCC00BA0C0A /* ofxIntegrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxIntegrator.h; sourceTree = "<group>"; };
 		1A288B151C10934200D8A173 /* GpuCompute.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GpuCompute.cpp; sourceTree = "<group>"; };
 		1A288B161C10934200D8A173 /* GpuCompute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GpuCompute.h; sourceTree = "<group>"; };
 		1A288B171C10934200D8A173 /* ofxWaterRipple.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxWaterRipple.cpp; sourceTree = "<group>"; };
@@ -403,22 +402,6 @@
 				A0399084868E7CAFB7E3D8E9 /* retina.hpp */,
 			);
 			name = contrib;
-			sourceTree = "<group>";
-		};
-		1A1DE0511C0C5CCC00BA0C0A /* ofxIntegrator */ = {
-			isa = PBXGroup;
-			children = (
-				1A1DE0751C0C5CCC00BA0C0A /* src */,
-			);
-			path = ofxIntegrator;
-			sourceTree = "<group>";
-		};
-		1A1DE0751C0C5CCC00BA0C0A /* src */ = {
-			isa = PBXGroup;
-			children = (
-				1A1DE0761C0C5CCC00BA0C0A /* ofxIntegrator.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		1A288B131C10934200D8A173 /* ofxWaterRipple */ = {
@@ -819,7 +802,6 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				1A1DE0511C0C5CCC00BA0C0A /* ofxIntegrator */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				9683228C705CA3FF4F2EA945 /* ofxKinect */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,

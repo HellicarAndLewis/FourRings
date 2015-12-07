@@ -66,6 +66,7 @@ void ofApp::setup()
     gui.add(kinectSpawn.set("Point Cloud Spawn", false));
     gui.add(nearClip.set("Kinect Spawn Near Clip", 230, 0, 255));
     gui.add(farClip.set("Kinect Spawn Far Clip", 70, 0, 255));
+    gui.add(vignetteOffset.set("Vignette Offset", 0.0, 0.0, 500.0));
     gui.loadFromFile(xmlSettingsPath);
     
 //    elements.resize(4);
@@ -79,6 +80,8 @@ void ofApp::setup()
     ofSetWindowShape(1080, 1920);
     ofSetWindowPosition(ofGetScreenWidth(), 0);
 //    fbo.allocate(WIDTH, HEIGHT);
+    
+    vignette.loadImage("Textures/Vignette_white_001.png");
 
 }
 
@@ -89,7 +92,7 @@ void ofApp::update()
 {
 //     agua.update(&fbo.getTextureReference());
     if(output != lastOutput) {
-        elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn);
+        elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn, &vignetteOffset);
         lastOutput = output;
     }
 	// Update time, this let's us hit space and slow down time, even reverse it.
@@ -169,7 +172,11 @@ void ofApp::draw()
         ofSetColor(particles.foregroundColor);
         elements[output].foreground.draw(0, 0, WIDTH, HEIGHT);
         ofPopStyle();
-    }       
+    }
+    ofPushStyle();
+    ofSetColor(elements[output].backgroundColor);
+    vignette.draw(-vignetteOffset, -vignetteOffset, ofGetWidth() + vignetteOffset*2, ofGetHeight() + vignetteOffset*2);
+    ofPopStyle();
 
 	if( drawGui )
 	{
@@ -209,7 +216,6 @@ void ofApp::draw()
 	
 	ofDisableDepthTest();
 	fontSmall.drawStringShadowed(ofToString(ofGetFrameRate(),2), ofGetWidth()-35, ofGetHeight() - 6, ofColor::whiteSmoke, ofColor::black );
-    fbo.end();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -240,7 +246,7 @@ void ofApp::keyPressed(int key)
 	}
     else if( key == ' ' )
     {
-        elements[output].setFromCurrentSystem(&particles, &camera, &kinectSpawn);
+        elements[output].setFromCurrentSystem(&particles, &camera, &kinectSpawn, &vignetteOffset);
         elements[output].saveToFile(elementsDir.getPath(output));
     }
     

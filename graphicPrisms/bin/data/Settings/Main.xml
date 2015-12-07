@@ -1,0 +1,10 @@
+<Main>
+	<Camera_Position>-3.86895, -15.6747, -2.26546</Camera_Position>
+<Main/>
+<Body_Height>1.1</Body_Height>
+	<Body_Width>8.4</Body_Width>
+	<Body_Deptch>0.4</Body_Deptch>
+<Body_Depth>7.95</Body_Depth>
+<Spawn_Rate>0.295</Spawn_Rate>
+<Gravity>1.86735, 1, 0</Gravity>
+</Main>

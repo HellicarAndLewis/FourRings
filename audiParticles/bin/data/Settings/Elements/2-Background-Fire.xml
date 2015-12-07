@@ -4,7 +4,7 @@
 	<Noise_Position_Scale>6.7033</Noise_Position_Scale>
 	<Noise_Time_Scale>0.21745</Noise_Time_Scale>
 	<Noise_Persistence>0.11422</Noise_Persistence>
-	<Wind>0.00965813, 0.326531, -0.14966</Wind>
+	<Wind>0.00157955, 0.326531, -0.14966</Wind>
 	<Start_Color>222, 56, 49, 207</Start_Color>
 	<End_Color>228, 132, 32, 94</End_Color>
 	<Twist_Noise_Time_Scale>0.0233333</Twist_Noise_Time_Scale>
@@ -25,5 +25,6 @@
     <Wind_Influence>0.0544218, 0</Wind_Influence>
     <Spawn_Fidelity>0.813333</Spawn_Fidelity>
     <Kinect_Spawn>0</Kinect_Spawn>
+    <Vignette_Offset>100</Vignette_Offset>
 <Main/>
 </Main>

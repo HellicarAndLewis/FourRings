@@ -16,7 +16,7 @@
 #include "ofxOpenCv.h"
 #include "ofxCv.h"
 #include "ofxKinect.h"
-#include "ofxIntegrator.h"
+//#include "ofxIntegrator.h"
 
 #include "element.h"
 
@@ -52,6 +52,7 @@ class ofApp : public ofBaseApp
         ofParameter<int>        nearClip;
         ofParameter<int>        farClip;
         ofParameter<float>      contourFidelity;
+        ofParameter<float>      vignetteOffset;
 	
         ofDirectory elementsDir;
 
@@ -72,7 +73,7 @@ class ofApp : public ofBaseApp
     
         vector<ofVec3f> spawnPoints;
 
-        ofImage img;
+        ofImage img, vignette;
     
         ofxCvGrayscaleImage grayImage;
         ofxCvGrayscaleImage grayThreshNear;
