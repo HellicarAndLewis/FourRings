@@ -1,0 +1,29 @@
+<Main>
+	<Particle_Max_Age>1.26</Particle_Max_Age>
+	<Noise_Magnitude>0.3682</Noise_Magnitude>
+	<Noise_Position_Scale>10</Noise_Position_Scale>
+	<Noise_Time_Scale>0.54712</Noise_Time_Scale>
+	<Noise_Persistence>0.52381</Noise_Persistence>
+	<Wind>-0.111512, -0.408163, -0.108844</Wind>
+	<Start_Color>104, 108, 163, 76</Start_Color>
+	<End_Color>21, 104, 165, 149</End_Color>
+	<Twist_Noise_Time_Scale>0.0233333</Twist_Noise_Time_Scale>
+	<Twist_Noise_Pos_Scale>0.06</Twist_Noise_Pos_Scale>
+	<Twist_Min_Ang>-0.266667</Twist_Min_Ang>
+	<Twist_Max_Ang>0.9</Twist_Max_Ang>
+	<Particle_Size>0.000765333</Particle_Size>
+	<Particle_Alpha>0.74</Particle_Alpha>
+	<Particle_Opacity_Scale>0.786667</Particle_Opacity_Scale>
+	<Light_Position>-1.05442, 1.66667, -0.85034</Light_Position>
+	<Light_Look_At>0.0340133, -0.340136, -0.680272</Light_Look_At>
+    <Camera_Pos>0.00630887, -0.381673, 0.138806</Camera_Pos>
+    <Foreground_Path>Textures/water-test-1.png</Foreground_Path>
+    <Background_Path/>
+    <Foreground_Color>0, 0, 0, 255</Foreground_Color>
+    <Background_Color>10, 0, 5, 255</Background_Color>
+    <Time_Step>0.0025</Time_Step>
+    <Wind_Influence>0.0782313, 0</Wind_Influence>
+    <Spawn_Fidelity>0.813333</Spawn_Fidelity>
+    <Kinect_Spawn>1</Kinect_Spawn>
+<Main/>
+</Main>

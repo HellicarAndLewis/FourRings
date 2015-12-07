@@ -7,9 +7,13 @@ void ofApp::setup(){
     ofSetWindowPosition(ofGetScreenWidth(), 0);
     
 	agua.setup(1080, 1920);
-    
-    img.loadImage("images/fondo.jpg");
-    img.resize(ofGetWidth(), ofGetHeight());
+
+    flatBackground.allocate(ofGetWidth(), ofGetHeight());
+    flatBackground.begin();
+    ofClear(0, 0, 0);
+    ofSetColor(127, 127, 127);
+    ofRect(0, 0, ofGetWidth(), ofGetHeight());
+    flatBackground.end();
     
     string xmlSettingsPath = "Settings/Main.xml";
     gui.setup("Main", xmlSettingsPath);
@@ -21,8 +25,12 @@ void ofApp::setup(){
     gui.add( radio.set("radius", 12, 0, 100));
     gui.add( useCentroid.set("Use Centroid", true));
     gui.add( useContours.set("Use Contours", true));
+        gui.add( col1.set("Color 1", ofColor(0), ofColor(0), ofColor(255)));
+    gui.add( col2.set("Color 2", ofColor(255), ofColor(0), ofColor(255)));
 
     gui.loadFromFile(xmlSettingsPath);
+    
+    overLay.load("Shaders/overLay");
     
     //Setup the kinect
     kinect.setRegistration(true);
@@ -36,7 +44,6 @@ void ofApp::setup(){
     
     kinect.setDepthClipping();
     
-    img.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);
 }
 
 //--------------------------------------------------------------
@@ -59,7 +66,7 @@ void ofApp::update(){
             disturbOnContours(blobs, &agua);
     }
 
-	agua.update(&img.getTextureReference());
+	agua.update(&flatBackground.getTextureReference());
 	ofSetWindowTitle( ofToString(ofGetFrameRate()) + " FPS" );
 }
 
@@ -69,7 +76,7 @@ void ofApp::disturbOnCentroid(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
             float scaledX = ofMap(blobs[i].centroid.x, 0, kinect.getWidth(), 0, ofGetWidth());
             float scaledY = ofMap(blobs[i].centroid.y, 0, kinect.getHeight(), 0, ofGetHeight());
             float scaledArea = ofMap(blobs[i].area, 0, (kinect.getWidth() * kinect.getHeight())/2, 0, 100);
-            agua->disturb(scaledX, scaledY, scaledArea, 500.0f);
+            agua->disturb(scaledX, scaledY, radio, 500.0f);
         }
 }
 
@@ -97,7 +104,22 @@ void ofApp::disturbOnContours(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
 void ofApp::draw(){
 	ofBackground(0);
 	ofSetColor(255);
-	agua.draw(true);
+	ofFbo* fbo = agua.draw();
+    ofVec3f color1, color2;
+    color1.x = ofMap(col1.get().r, 0.0, 255.0, 0.0, 1.0);
+    color1.y = ofMap(col1.get().g, 0.0, 255.0, 0.0, 1.0);
+    color1.z = ofMap(col1.get().b, 0.0, 255.0, 0.0, 1.0);
+    color2.x = ofMap(col2.get().r, 0.0, 255.0, 0.0, 1.0);
+    color2.y = ofMap(col2.get().g, 0.0, 255.0, 0.0, 1.0);
+    color2.z = ofMap(col2.get().b, 0.0, 255.0, 0.0, 1.0);
+
+
+    overLay.begin();
+        overLay.setUniform3f("color1", color1.x, color1.y, color1.z);
+        overLay.setUniform3f("color2", color2.x, color2.y, color2.z);
+        fbo->draw(0, 0);
+    overLay.end();
+    //fbo->draw(0, 0);
     
     if( drawGui ) {
         gui.draw();

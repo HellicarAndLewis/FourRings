@@ -36,9 +36,7 @@ void ofApp::setup()
     
     //Setup the kinect
     kinect.setRegistration(true);
-
     kinect.init();
-    
     kinect.open();
     
     //setup our FBO
@@ -66,8 +64,8 @@ void ofApp::setup()
     gui.add(output.set("Element", 0, 0, elementsDir.numFiles()-1));
     gui.add(flowControl.set("Flow Interaction", true));
     gui.add(kinectSpawn.set("Point Cloud Spawn", false));
-    gui.add(nearClip.set("Kinect Spawn Near Clip", 0, 0, 2000));
-    gui.add(farClip.set("Kinect Spawn Far Clip", 1500, 0, 2000));
+    gui.add(nearClip.set("Kinect Spawn Near Clip", 230, 0, 255));
+    gui.add(farClip.set("Kinect Spawn Far Clip", 70, 0, 255));
     gui.loadFromFile(xmlSettingsPath);
     
 //    elements.resize(4);
@@ -184,7 +182,7 @@ void ofApp::draw()
                 ofPushMatrix();
                 ofTranslate(0, HEIGHT - kinect.getHeight());
                 ofTranslate(kinect.getWidth(), 0);
-                kinect.drawDepth(0, 0, kinect.getWidth(), kinect.getHeight());
+                //ofScale(-1, 1);
 //                contourFinder.draw();
 //                ofScale(-1, 1);
 //                kinect.draw(-WIDTH/2, HEIGHT - kinect.getHeight() - 10, kinect.getHeight(), kinect.getWidth());
@@ -204,6 +202,8 @@ void ofApp::draw()
         ofTranslate(kinect.getWidth(), HEIGHT - kinect.getHeight());
         ofScale(-1, 1);
         kinect.draw(0, 0, kinect.getWidth(), kinect.getHeight());
+//        grayImage.draw(0, 0, kinect.getWidth() - 100, kinect.getHeight());
+        if( kinectSpawn ) grayImage.draw(-kinect.getWidth(), 0, kinect.getWidth(), kinect.getHeight());
         ofPopMatrix();
     }
 	
@@ -319,8 +319,8 @@ void ofApp::setSpawnPointsContours() {
         grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
         grayThreshNear = grayImage;
         grayThreshFar = grayImage;
-        grayThreshNear.threshold(230, true);
-        grayThreshFar.threshold(70);
+        grayThreshNear.threshold(nearClip, true);
+        grayThreshFar.threshold(farClip);
         cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
         grayImage.flagImageChanged();
         contourFinder.findContours(grayImage, 10, (kinect.width*kinect.height)/2, 20, false);

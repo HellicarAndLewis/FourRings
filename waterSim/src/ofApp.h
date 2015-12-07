@@ -38,7 +38,13 @@ class ofApp : public ofBaseApp{
         ofParameter<int> radio;
         ofParameter<bool> useCentroid;
         ofParameter<bool> useContours;
+        ofParameter<ofColor> col1;
+        ofParameter<ofColor> col2;
 
+    
+        ofShader overLay;
+    
+        ofFbo flatBackground;
     
         ofImage img;
         ofxCvGrayscaleImage grayImage, grayThreshNear, grayThreshFar;

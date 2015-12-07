@@ -1,0 +1,29 @@
+<Main>
+	<Particle_Max_Age>1.26</Particle_Max_Age>
+	<Noise_Magnitude>0.4279</Noise_Magnitude>
+	<Noise_Position_Scale>9.6004</Noise_Position_Scale>
+	<Noise_Time_Scale>0.56377</Noise_Time_Scale>
+	<Noise_Persistence>0.50716</Noise_Persistence>
+	<Wind>0.0039712, 0.027211, -1.29252</Wind>
+	<Start_Color>255, 255, 255, 255</Start_Color>
+	<End_Color>21, 72, 255, 255</End_Color>
+	<Twist_Noise_Time_Scale>0.0233333</Twist_Noise_Time_Scale>
+	<Twist_Noise_Pos_Scale>0.06</Twist_Noise_Pos_Scale>
+	<Twist_Min_Ang>-0.266667</Twist_Min_Ang>
+	<Twist_Max_Ang>0.9</Twist_Max_Ang>
+	<Particle_Size>0.000432667</Particle_Size>
+	<Particle_Alpha>0.74</Particle_Alpha>
+	<Particle_Opacity_Scale>0.786667</Particle_Opacity_Scale>
+	<Light_Position>-1.05442, 1.66667, -0.85034</Light_Position>
+	<Light_Look_At>0.0340133, -0.340136, -0.680272</Light_Look_At>
+    <Camera_Pos>0.0252363, -0.0315157, 0.0820231</Camera_Pos>
+    <Foreground_Path/>
+    <Background_Path/>
+    <Foreground_Color>255, 255, 255, 255</Foreground_Color>
+    <Background_Color>0, 0, 0, 255</Background_Color>
+    <Time_Step>0.00116667</Time_Step>
+    <Wind_Influence>0.142857, 0</Wind_Influence>
+    <Spawn_Fidelity>0.813333</Spawn_Fidelity>
+    <Kinect_Spawn>1</Kinect_Spawn>
+<Main/>
+</Main>
