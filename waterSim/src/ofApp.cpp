@@ -104,7 +104,7 @@ void ofApp::disturbOnContours(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
 void ofApp::draw(){
 	ofBackground(0);
 	ofSetColor(255);
-	ofFbo* fbo = agua.draw();
+	ofFbo* fbo = agua.getFbo();
     ofVec3f color1, color2;
     color1.x = ofMap(col1.get().r, 0.0, 255.0, 0.0, 1.0);
     color1.y = ofMap(col1.get().g, 0.0, 255.0, 0.0, 1.0);
