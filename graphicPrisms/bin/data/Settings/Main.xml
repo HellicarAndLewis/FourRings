@@ -1,10 +1,18 @@
 <Main>
-	<Camera_Position>-3.86895, -15.6747, -2.26546</Camera_Position>
+	<Camera_Position>-27.4364, 67.6058, 4.38515</Camera_Position>
 <Main/>
-<Body_Height>1.1</Body_Height>
-	<Body_Width>8.4</Body_Width>
+<Body_Height>1.25</Body_Height>
+	<Body_Width>6</Body_Width>
 	<Body_Deptch>0.4</Body_Deptch>
-<Body_Depth>7.95</Body_Depth>
-<Spawn_Rate>0.295</Spawn_Rate>
+<Body_Depth>5.94</Body_Depth>
+<Spawn_Rate>0.78</Spawn_Rate>
 <Gravity>1.86735, 1, 0</Gravity>
+<Offset>3</Offset>
+	<Near_Clip>230</Near_Clip>
+	<Far_Clip>0</Far_Clip>
+	<Shader_Threshold>0</Shader_Threshold>
+<ForegroundColor>186, 5, 15, 255</ForegroundColor>
+<Light_X_Range>1</Light_X_Range>
+	<Light_Y_Range>1</Light_Y_Range>
+<X_Spawn_Spread>8.25</X_Spawn_Spread>
 </Main>

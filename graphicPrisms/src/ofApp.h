@@ -5,6 +5,8 @@
 #include "ofxGui.h"
 #include "ofxKinect.h"
 #include "ofxOpenCv.h"
+#include "ofxCv.h"
+#include "ofxIntegrator.h"
 
 class ofApp : public ofBaseApp{
 
@@ -38,6 +40,11 @@ public:
     ofParameter<float>          offSet;
     ofParameter<int>            nearClip;
     ofParameter<int>            farClip;
+    ofParameter<float>          thresh;
+    ofParameter<ofColor>        foregroundCol;
+    ofParameter<float>          lightXRange;
+    ofParameter<float>          lightYRange;
+    ofParameter<float>          spawnSpread;
     
     int                         lastSpawn;
     bool                        drawGui;
@@ -46,16 +53,26 @@ public:
     ofImage vignette;
     
     vector< shared_ptr<ofxBulletRigidBody> >    rigidBodies;
-    vector< shared_ptr<ofxBulletSoftTriMesh> >  bunnies;
+    vector< shared_ptr<ofxBulletCustomShape> >  parallelograms;
     
     ofxCvGrayscaleImage grayImage;
     ofxCvGrayscaleImage grayThreshNear;
     ofxCvGrayscaleImage grayThreshFar;
     ofxCvContourFinder contourFinder;
     
+    ofImage backgroundImage;
+    vector<string> backgroundImageNames;
+    int backgroundIndex;
+    
+    ofxCv::FlowFarneback flow;
+    
+    ofShader shader;
+    
     ofFbo fbo;
     
     ofMesh mesh;
     
-    ofLight light;
+    vector<ofLight*> lights;
+    vector< Integrator<ofVec2f> > lightLocs;
+    Integrator< float > xParalax;
 };
