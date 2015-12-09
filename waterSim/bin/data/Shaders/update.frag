@@ -23,8 +23,6 @@ float fromImageOld(vec2 v)
 
 }
 
-   
-
 void main()
 {
     //vec3 data = texture2DRect(gpuCompute0, gl_TexCoord[0].st).xyz;

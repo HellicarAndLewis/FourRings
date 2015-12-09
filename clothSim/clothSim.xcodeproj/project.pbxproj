@@ -311,6 +311,7 @@
 		17E65988300FBD9AAA2CD0CA /* ofxGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGui.h; path = ../../../addons/ofxGui/src/ofxGui.h; sourceTree = SOURCE_ROOT; };
 		1ABA1C441C184680008DE2D4 /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
 		1ABA1C461C1846E4008DE2D4 /* Spring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Spring.h; sourceTree = "<group>"; };
+		1ABA1C551C188FD9008DE2D4 /* ofxIntegrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxIntegrator.h; sourceTree = "<group>"; };
 		1B5847E84250D282DDE4A4E3 /* btSoftRigidDynamicsWorld.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = btSoftRigidDynamicsWorld.h; path = ../../../addons/ofxBullet/libs/bullet2.8.2/include/BulletSoftBody/btSoftRigidDynamicsWorld.h; sourceTree = SOURCE_ROOT; };
 		1BB80E0B7B119440EE745240 /* btHinge2Constraint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = btHinge2Constraint.cpp; path = ../../../addons/ofxBullet/libs/bullet2.8.2/include/BulletDynamics/ConstraintSolver/btHinge2Constraint.cpp; sourceTree = SOURCE_ROOT; };
 		1BB921E66522A452136448B9 /* gim_hash_table.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gim_hash_table.h; path = ../../../addons/ofxBullet/libs/bullet2.8.2/include/BulletCollision/Gimpact/gim_hash_table.h; sourceTree = SOURCE_ROOT; };
@@ -1004,6 +1005,23 @@
 			name = contrib;
 			sourceTree = "<group>";
 		};
+		1ABA1C531C188FD9008DE2D4 /* ofxIntegrator */ = {
+			isa = PBXGroup;
+			children = (
+				1ABA1C541C188FD9008DE2D4 /* src */,
+			);
+			name = ofxIntegrator;
+			sourceTree = "<group>";
+		};
+		1ABA1C541C188FD9008DE2D4 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1ABA1C551C188FD9008DE2D4 /* ofxIntegrator.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxIntegrator/src;
+			sourceTree = "<group>";
+		};
 		1AE6862ED862CA18468E0CCD /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -1683,6 +1701,7 @@
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
 				CDA47165D96F2059C5206BBD /* ofxBullet */,
 				6025FAF6414C2CA589764D26 /* ofxCv */,
+				1ABA1C531C188FD9008DE2D4 /* ofxIntegrator */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -2790,6 +2809,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2875,6 +2895,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

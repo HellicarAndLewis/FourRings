@@ -87,17 +87,25 @@ class ofApp : public ofBaseApp{
     ofParameter<int> nearClip;
     ofParameter<int> farClip;
     
+    ofImage backgroundImgs[2];
+    vector<string> backgroundImgNames;
+    int backgroundIndex;
+    
+    int currentTime;
+    
+    float fadeAmnt;
+    
     ofxKinect kinect;
     
     bool drawGui;
     bool drawCam;
     ofImage img;
-    ofxAutoReloadedShader bokeh;
+    ofxAutoReloadedShader bokeh, fade;
     
     ofxCvGrayscaleImage grayImage, grayThreshNear, grayThreshFar;
     ofxCvContourFinder contourFinder;
     
-    ofFbo background;
+    ofFbo background, fadePass;
     
     ofImage glowImg;
     

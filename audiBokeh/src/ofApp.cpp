@@ -14,6 +14,21 @@ void ofApp::setup(){
     drawGui = false;
     drawCam = false;
     
+    ofDirectory imagesDir;
+    imagesDir.listDir("Images");
+    for(int i = 0; i < imagesDir.numFiles(); i++) {
+        backgroundImgNames.push_back(imagesDir.getPath(i));
+    }
+    
+    if(backgroundImgNames.size() >= 2) {
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+    }
+    
     //Setup our Bokeh Shader
     bokeh.ofShader::load("Shaders/bokehVert.glsl", "Shaders/bokehFrag.glsl");
     
@@ -29,6 +44,7 @@ void ofApp::setup(){
     grayThreshNear.allocate(kinect.getWidth(), kinect.getHeight());
     grayThreshFar.allocate(kinect.getWidth(), kinect.getHeight());
     
+//    for (int i = 0;)
     //draw initial FBO
     background.allocate(ofGetWidth(), ofGetHeight());
         background.begin();
@@ -38,6 +54,10 @@ void ofApp::setup(){
             img.draw(0, 0, ofGetWidth(), ofGetHeight());
         bokeh.end();
     background.end();
+    
+    fadePass.allocate(ofGetWidth(), ofGetHeight());
+    
+    fade.ofShader::load("Shaders/DummyVert.glsl", "Shaders/FadeFrag.glsl");
     
     glowImg.loadImage("bokeh-circle-3-02.png");
 }

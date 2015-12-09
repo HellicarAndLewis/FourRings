@@ -27,7 +27,7 @@ void ParticleSystemGPU::init( int _texSize )
 
 	gui.add( particleSize.set("Particle Size", 0.01, 0.0001f, 0.05f) );
     gui.add( timeStep.set("Time Step", 1.0f / 60.0f, -1.0 / 60.0f, 2.0 / 60.0f) );
-    gui.add( baseSpeedInfluence.set("Flow Influence on Base Speed", ofVec2f(1.0, 0.0), ofVec2f(0.0, 0.0), ofVec2f(1.0, 1.0)) );
+    gui.add( baseSpeedInfluence.set("Flow Influence on Base Speed", ofVec2f(1.0, 0.0), ofVec2f(0.0, 0.0), ofVec2f(3.0, 3.0)) );
     gui.add( spawnFidelity.set("Spawn Fidelity", 0.5, 0.0, 1.0));
 //	gui.add( twistNoiseTimeScale.set("Twist Noise Time Scale", 0.01, 0.0f, 0.5f) );
 //	gui.add( twistNoisePosScale.set("Twist Noise Pos Scale", 0.25, 0.0f, 2.0f) );

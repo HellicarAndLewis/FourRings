@@ -187,12 +187,12 @@ void ofApp::keyPressed(int key){
     if( key == OF_KEY_LEFT) {
         backgroundIndex--;
         if(backgroundIndex < 0) backgroundIndex = 0;
-        backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundImgs[0].loadImage(backgroundImgNames[backgroundIndex]);
     }
     if( key == OF_KEY_RIGHT) {
         backgroundIndex++;
         if(backgroundIndex >= backgroundImgNames.size()) backgroundIndex = backgroundImgNames.size() - 1;
-        backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundImgs[0].loadImage(backgroundImgNames[backgroundIndex]);
     }
 }
 
