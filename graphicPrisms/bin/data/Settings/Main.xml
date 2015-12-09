@@ -1,5 +1,5 @@
 <Main>
-	<Camera_Position>-27.4364, 67.6058, 4.38515</Camera_Position>
+	<Camera_Position>-27.4588, 67.5967, 0.869307</Camera_Position>
 <Main/>
 <Body_Height>1.25</Body_Height>
 	<Body_Width>6</Body_Width>
@@ -11,7 +11,7 @@
 	<Near_Clip>230</Near_Clip>
 	<Far_Clip>0</Far_Clip>
 	<Shader_Threshold>0</Shader_Threshold>
-<ForegroundColor>186, 5, 15, 255</ForegroundColor>
+<ForegroundColor>238, 7, 2, 255</ForegroundColor>
 <Light_X_Range>1</Light_X_Range>
 	<Light_Y_Range>1</Light_Y_Range>
 <X_Spawn_Spread>8.25</X_Spawn_Spread>

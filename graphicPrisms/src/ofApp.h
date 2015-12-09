@@ -45,6 +45,8 @@ public:
     ofParameter<float>          lightXRange;
     ofParameter<float>          lightYRange;
     ofParameter<float>          spawnSpread;
+    ofParameter<int>            imageDuration;
+    ofParameter<float>          attraction;
     
     int                         lastSpawn;
     bool                        drawGui;
@@ -60,15 +62,19 @@ public:
     ofxCvGrayscaleImage grayThreshFar;
     ofxCvContourFinder contourFinder;
     
-    ofImage backgroundImage;
-    vector<string> backgroundImageNames;
+    ofImage backgroundImgs[2];
+    vector<string> backgroundImgNames;
     int backgroundIndex;
+    
+    int currentTime;
+    
+    float fadeAmnt;
     
     ofxCv::FlowFarneback flow;
     
-    ofShader shader;
+    ofShader shader, fade;
     
-    ofFbo fbo;
+    ofFbo fbo, fadePass;
     
     ofMesh mesh;
     

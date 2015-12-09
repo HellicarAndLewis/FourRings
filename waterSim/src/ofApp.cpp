@@ -15,6 +15,27 @@ void ofApp::setup(){
     ofRect(0, 0, ofGetWidth(), ofGetHeight());
     flatBackground.end();
     
+    ofDirectory imagesDir;
+    imagesDir.listDir("Images/Audi Crops");
+    for(int i = 0; i < imagesDir.numFiles(); i++) {
+        backgroundImgNames.push_back(imagesDir.getPath(i));
+    }
+    
+    if(backgroundImgNames.size() >= 2) {
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+    }
+    
+    fadeAmnt = 0.0;
+    
+    fade.load("Shaders/DummyVert.glsl", "Shaders/FadeFrag.glsl");
+    
+    fadePass.allocate(ofGetWidth(), ofGetHeight());
+    
     string xmlSettingsPath = "Settings/Main.xml";
     gui.setup("Main", xmlSettingsPath);
     gui.add( nearClip.set("Near Clip", 230, 0, 255) );
@@ -25,9 +46,9 @@ void ofApp::setup(){
     gui.add( radio.set("radius", 12, 0, 100));
     gui.add( useCentroid.set("Use Centroid", true));
     gui.add( useContours.set("Use Contours", true));
-        gui.add( col1.set("Color 1", ofColor(0), ofColor(0), ofColor(255)));
-    gui.add( col2.set("Color 2", ofColor(255), ofColor(0), ofColor(255)));
-
+    gui.add( col1.set("Foreground Color", ofColor(0), ofColor(0), ofColor(255)));
+    gui.add( imageDuration.set("Image Duration", 20, 1, 60));
+    
     gui.loadFromFile(xmlSettingsPath);
     
     overLay.load("Shaders/overLay");
@@ -43,7 +64,7 @@ void ofApp::setup(){
     kinect.open();
     
     kinect.setDepthClipping();
-    
+    currentTime = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
@@ -65,6 +86,19 @@ void ofApp::update(){
         if( useContours )
             disturbOnContours(blobs, &agua);
     }
+    
+    if(fadeAmnt > 0.0 || ofGetElapsedTimef() - currentTime > imageDuration) {
+        fadeAmnt += 0.01;
+        if(fadeAmnt > 1.0) {
+            fadeAmnt = 0.0;
+            backgroundImgs[0] = backgroundImgs[1];
+            backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
+            backgroundIndex++;
+            backgroundIndex %= backgroundImgNames.size();
+        }
+        currentTime = ofGetElapsedTimef();
+    }
+
 
 	agua.update(&flatBackground.getTextureReference());
 	ofSetWindowTitle( ofToString(ofGetFrameRate()) + " FPS" );
@@ -72,12 +106,12 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::disturbOnCentroid(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
-        for(int i = 0; i < blobs.size(); i++) {
-            float scaledX = ofMap(blobs[i].centroid.x, 0, kinect.getWidth(), 0, ofGetWidth());
-            float scaledY = ofMap(blobs[i].centroid.y, 0, kinect.getHeight(), 0, ofGetHeight());
-            float scaledArea = ofMap(blobs[i].area, 0, (kinect.getWidth() * kinect.getHeight())/2, 0, 100);
-            agua->disturb(scaledX, scaledY, radio, 500.0f);
-        }
+    for(int i = 0; i < blobs.size(); i++) {
+        float scaledX = ofMap(blobs[i].centroid.x, 0, kinect.getWidth(), 0, ofGetWidth());
+        float scaledY = ofMap(blobs[i].centroid.y, 0, kinect.getHeight(), 0, ofGetHeight());
+        float scaledArea = ofMap(blobs[i].area, 0, (kinect.getWidth() * kinect.getHeight())/2, 0, 100);
+        agua->disturb(scaledX, scaledY, radio, 500.0f);
+    }
 }
 
 //--------------------------------------------------------------
@@ -101,6 +135,15 @@ void ofApp::disturbOnContours(vector<ofxCvBlob> blobs, ofxWaterRipple* agua) {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    fadePass.begin();
+        fade.begin();
+        fade.setUniformTexture("texOut", backgroundImgs[0].getTextureReference(), 0);
+        fade.setUniformTexture("texIn", backgroundImgs[1].getTextureReference(), 1);
+        fade.setUniform1f("fadeAmnt", fadeAmnt);
+        backgroundImgs[0].draw(0, 0, ofGetWidth(), ofGetHeight());
+        fade.end();
+    fadePass.end();
+    
 	ofBackground(0);
 	ofSetColor(255);
 	ofFbo* fbo = agua.getFbo();
@@ -108,14 +151,11 @@ void ofApp::draw(){
     color1.x = ofMap(col1.get().r, 0.0, 255.0, 0.0, 1.0);
     color1.y = ofMap(col1.get().g, 0.0, 255.0, 0.0, 1.0);
     color1.z = ofMap(col1.get().b, 0.0, 255.0, 0.0, 1.0);
-    color2.x = ofMap(col2.get().r, 0.0, 255.0, 0.0, 1.0);
-    color2.y = ofMap(col2.get().g, 0.0, 255.0, 0.0, 1.0);
-    color2.z = ofMap(col2.get().b, 0.0, 255.0, 0.0, 1.0);
-
 
     overLay.begin();
         overLay.setUniform3f("color1", color1.x, color1.y, color1.z);
-        overLay.setUniform3f("color2", color2.x, color2.y, color2.z);
+        overLay.setUniformTexture("texture0", *fbo, 0);
+        overLay.setUniformTexture("revealImg", fadePass, 1);
         fbo->draw(0, 0);
     overLay.end();
     //fbo->draw(0, 0);
@@ -143,6 +183,16 @@ void ofApp::keyPressed(int key){
     }
     if(key == 'c') {
         drawCam = !drawCam;
+    }
+    if( key == OF_KEY_LEFT) {
+        backgroundIndex--;
+        if(backgroundIndex < 0) backgroundIndex = 0;
+        backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
+    }
+    if( key == OF_KEY_RIGHT) {
+        backgroundIndex++;
+        if(backgroundIndex >= backgroundImgNames.size()) backgroundIndex = backgroundImgNames.size() - 1;
+        backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
     }
 }
 

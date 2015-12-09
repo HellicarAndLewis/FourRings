@@ -1,11 +1,13 @@
 <Main>
 	<Near_Clip>255</Near_Clip>
-	<Far_Clip>242</Far_Clip>
+	<Far_Clip>62</Far_Clip>
 <Main/>
-<Depth>255</Depth>
-	<radius>44</radius>
-	<Use_Centroid>1</Use_Centroid>
-	<Use_Contours>0</Use_Contours>
-<Color_1>255, 255, 255, 255</Color_1>
+<Depth>110</Depth>
+	<radius>100</radius>
+	<Use_Centroid>0</Use_Centroid>
+	<Use_Contours>1</Use_Contours>
+<Color_1>0, 0, 0, 255</Color_1>
 	<Color_2>0, 0, 0, 255</Color_2>
+<Foreground_Color>0, 0, 0, 255</Foreground_Color>
+	<Image_Duration>20</Image_Duration>
 </Main>

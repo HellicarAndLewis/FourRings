@@ -31,6 +31,12 @@ class ofApp : public ofBaseApp{
     
 		ofxWaterRipple agua;
     
+        int backgroundIndex, currImg;
+    
+        int currentTime;
+    
+        float fadeAmnt;
+    
         ofxPanel gui;
         ofParameter<int> nearClip;
         ofParameter<int> farClip;
@@ -39,12 +45,15 @@ class ofApp : public ofBaseApp{
         ofParameter<bool> useCentroid;
         ofParameter<bool> useContours;
         ofParameter<ofColor> col1;
-        ofParameter<ofColor> col2;
-
+        ofParameter<int> imageDuration;
     
-        ofShader overLay;
+        ofImage backgroundImgs[2];
+        vector<string> backgroundImgNames;
+    
+        ofShader overLay, fade;
     
         ofFbo flatBackground;
+        ofFbo fadePass;
     
         ofImage img;
         ofxCvGrayscaleImage grayImage, grayThreshNear, grayThreshFar;

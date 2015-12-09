@@ -15,15 +15,26 @@ void ofApp::setup() {
     ofSetWindowShape(1080, 1920);
     ofSetWindowPosition(ofGetScreenWidth(), 0);
     
+    ofSetLogLevel(OF_LOG_SILENT);
+    
     //camera.disableMouseInput();
+    
+    fadeAmnt = 0.0;
     
     ofDirectory imagesDir;
     imagesDir.listDir("Images/Audi Crops");
     for(int i = 0; i < imagesDir.numFiles(); i++) {
-        backgroundImageNames.push_back(imagesDir.getPath(i));
+        backgroundImgNames.push_back(imagesDir.getPath(i));
     }
     
-    backgroundImage.loadImage(backgroundImageNames[0]);
+    if(backgroundImgNames.size() >= 2) {
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+        backgroundImgs[backgroundIndex].loadImage(backgroundImgNames[backgroundIndex]);
+        backgroundIndex++;
+        backgroundIndex%=backgroundImgNames.size();
+    }
     
     world.setup();
     world.setCamera(&camera);
@@ -66,6 +77,8 @@ void ofApp::setup() {
     gui.add( lightXRange.set("Light X Range", 1.0, 0.0, 100.0));
     gui.add( lightYRange.set("Light Y Range", 1.0, 0.0, 100.0));
     gui.add( spawnSpread.set("X Spawn Spread", 30, 0.0, 50.0));
+    gui.add( imageDuration.set("Image Duration", 20, 1, 60));
+    gui.add( attraction.set("Responsivness", 0.05, 0.0, 0.1));
 
     gui.loadFromFile(xmlSettingsPath);
     
@@ -145,6 +158,7 @@ void ofApp::setup() {
         // lights[i]->setSpotlight();
         lightLocs[i].set(ofVec2f(0, 0));
         lightLocs[i].attraction = 0.007;
+        lightLocs[i].damping = 1.0;
         lights[i]->setPosition( 0, 0, 0 );
     }
     
@@ -153,7 +167,13 @@ void ofApp::setup() {
     fbo.allocate(ofGetWidth(), ofGetHeight());
     
     xParalax.set(0);
-    xParalax.attraction = 0.1;
+    xParalax.attraction = attraction;
+    
+    fadePass.allocate(ofGetWidth(), ofGetHeight());
+    
+    fade.load("Shaders/DummyVert.glsl", "Shaders/FadeFrag.glsl");
+    
+    currentTime = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
@@ -162,6 +182,18 @@ void ofApp::update() {
     
     for(int i = 0; i < lights.size(); i++) {
         lightLocs[i].update();
+    }
+    
+    if(fadeAmnt > 0.0 || ofGetElapsedTimef() - currentTime > imageDuration) {
+        fadeAmnt += 0.01;
+        if(fadeAmnt > 1.0) {
+            fadeAmnt = 0.0;
+            backgroundImgs[0] = backgroundImgs[1];
+            backgroundImgs[1].loadImage(backgroundImgNames[backgroundIndex]);
+            backgroundIndex++;
+            backgroundIndex %= backgroundImgNames.size();
+        }
+        currentTime = ofGetElapsedTimef();
     }
     
     kinect.update();
@@ -203,10 +235,12 @@ void ofApp::update() {
         flow.calcOpticalFlow(grayImage);
         ofVec2f averageFlow = flow.getAverageFlow();
         float x = averageFlow.x;
+        if(abs(x) < 0.01) x = 0;
         xParalax.target(ofMap(x, -2, 2, 30, -30));
         xParalax.update();
         camera.setPosition(camera.getPosition().x, camera.getPosition().y, xParalax.val);
     }
+    xParalax.attraction = attraction;
     
     world.setGravity(gravity);
     
@@ -217,22 +251,26 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
     
+    fadePass.begin();
+    fade.begin();
+    fade.setUniformTexture("texOut", backgroundImgs[0].getTextureReference(), 0);
+    fade.setUniformTexture("texIn", backgroundImgs[1].getTextureReference(), 1);
+    fade.setUniform1f("fadeAmnt", fadeAmnt);
+    backgroundImgs[0].draw(0, 0, ofGetWidth(), ofGetHeight());
+    fade.end();
+    fadePass.end();
+    
     int timeSinceLastSpawn = ofGetElapsedTimeMillis() - lastSpawn;
     float inverseSpawnRate = 1.0 / spawnRate;
     if((ofGetElapsedTimeMillis() - lastSpawn) > (1000 / spawnRate)) {
         
         shared_ptr< ofxBulletCustomShape > ss1( new ofxBulletCustomShape() );
-//        shared_ptr< ofxBulletCustomShape > ss2( new ofxBulletCustomShape() );
 
-        //        shared_ptr<ofxBulletTriMeshShape> ss( new ofxBulletTriMeshShape() );
-//        ss->create(world.world, mesh, ofVec3f(-35.0 + ofRandom(5), 0.0 + ofRandom(5)), 1.0);
-        //shared_ptr< ofxBulletBox > ss( new ofxBulletBox() );
         ss1->addMesh(mesh, ofVec3f(1, 1, 1), true);
         ss1->create( world.world, ofVec3f(-50.0 + ofRandom(-5, 5), 0.0 + ofRandom(-30, 30), 0.0 + ofRandom(-spawnSpread, spawnSpread)) );
         ss1->add();
         
         parallelograms.push_back( ss1 );
-//        parallelograms.push_back( ss2 );
 
         lastSpawn = ofGetElapsedTimeMillis();
     }
@@ -289,7 +327,7 @@ void ofApp::draw() {
     shader.begin();
         shader.setUniform1f("thresh", thresh);
         shader.setUniformTexture("texture0", fbo, 0);
-        shader.setUniformTexture("background", backgroundImage, 1);
+        shader.setUniformTexture("background", fadePass.getTextureReference(), 1);
         shader.setUniform3f("foregroundColor", foregroundCol.get().r, foregroundCol.get().g, foregroundCol.get().b);
         fbo.draw(0, 0);
     shader.end();
@@ -321,12 +359,12 @@ void ofApp::keyPressed(int key) {
     if( key == OF_KEY_LEFT) {
         backgroundIndex--;
         if(backgroundIndex < 0) backgroundIndex = 0;
-        backgroundImage.loadImage(backgroundImageNames[backgroundIndex]);
+        backgroundImgs[0].loadImage(backgroundImgNames[backgroundIndex]);
     }
     if( key == OF_KEY_RIGHT) {
         backgroundIndex++;
-        if(backgroundIndex >= backgroundImageNames.size()) backgroundIndex = backgroundImageNames.size() - 1;
-        backgroundImage.loadImage(backgroundImageNames[backgroundIndex]);
+        if(backgroundIndex >= backgroundImgNames.size()) backgroundIndex = backgroundImgNames.size() - 1;
+        backgroundImgs[0].loadImage(backgroundImgNames[backgroundIndex]);
     }
     
     if( key == OF_KEY_TAB ) {
