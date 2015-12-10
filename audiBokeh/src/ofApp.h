@@ -62,7 +62,7 @@ class ofApp : public ofBaseApp{
 //            ofTranslate(-xBump, -yBump);
             float xBump = 0.0;//ofMap(offSet.x, 0, 1.0, -maxWobble, maxWobble);
             float yBump = ofMap(offSet.y, 0, 1.0, 0, maxWobble);
-            img->draw(loc.x + xBump, loc.y + yBump);
+            img->draw(loc.x + xBump, loc.y + yBump, rad, rad);
             //ofCircle(loc.x + xBump, loc.y + yBump, rad);
             ofSetRectMode(OF_RECTMODE_CORNER);
             ofPopStyle();

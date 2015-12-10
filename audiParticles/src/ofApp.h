@@ -16,6 +16,7 @@
 #include "ofxOpenCv.h"
 #include "ofxCv.h"
 #include "ofxKinect.h"
+#include "DepthFinder.h"
 //#include "ofxIntegrator.h"
 
 #include "element.h"
@@ -31,6 +32,7 @@ class ofApp : public ofBaseApp
 		void draw();
 
 		void keyPressed(int key);
+        float getDepthChange();
 //        void mouseDragged(int x, int y, int button);
     
         void setSpawnPointsPointCloud();
@@ -53,6 +55,7 @@ class ofApp : public ofBaseApp
         ofParameter<int>        farClip;
         ofParameter<float>      contourFidelity;
         ofParameter<float>      vignetteOffset;
+        ofParameter<bool>       depthReactivity;
 	
         ofDirectory elementsDir;
 
@@ -80,6 +83,8 @@ class ofApp : public ofBaseApp
         ofxCvGrayscaleImage grayThreshFar;
     
         ofxCvContourFinder contourFinder;
+    
+        DepthFinder depthFinder;
     
         ofxCv::FlowFarneback flowFinder;
     

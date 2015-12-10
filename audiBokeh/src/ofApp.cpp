@@ -157,19 +157,21 @@ void ofApp::drawOnContours(vector<ofxCvBlob> blobs) {
             ofPixels pixels = img.getPixelsRef();
             ofColor col = pixels.getColor(scaledX, scaledY);
             glow newGlow;
-            newGlow.emerge(ofVec2f(scaledX, scaledY), col);
-            if(glows.size() < 1)
-                glows.push_back(newGlow);
-            else {
-                bool farEnoughAway = true;
-                for(int i = 0; i < glows.size(); i++) {
-                    if((newGlow.loc - glows[i].loc).length() < newGlow.rad*2) {
-                        farEnoughAway = false;
-                        break;
-                    }
-                }
-                if(farEnoughAway) {
+            if(col.r + col.g + col.b > (255 + 255 + 255)/2) {
+                newGlow.emerge(ofVec2f(scaledX, scaledY), col);
+                if(glows.size() < 1)
                     glows.push_back(newGlow);
+                else {
+                    bool farEnoughAway = true;
+                    for(int i = 0; i < glows.size(); i++) {
+                        if((newGlow.loc - glows[i].loc).length() < newGlow.rad) {
+                            farEnoughAway = false;
+                            break;
+                        }
+                    }
+                    if(farEnoughAway) {
+                        glows.push_back(newGlow);
+                    }
                 }
             }
 //            else {

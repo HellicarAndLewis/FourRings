@@ -47,6 +47,8 @@ public:
     ofParameter<float>          spawnSpread;
     ofParameter<int>            imageDuration;
     ofParameter<float>          attraction;
+    ofParameter<int>            maxTorque;
+    ofParameter<float>          damping;
     
     int                         lastSpawn;
     bool                        drawGui;

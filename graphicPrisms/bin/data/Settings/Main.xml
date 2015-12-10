@@ -1,5 +1,5 @@
 <Main>
-	<Camera_Position>-27.4588, 67.5967, 0.869307</Camera_Position>
+	<Camera_Position>-27.4588, 67.5964, 0.869301</Camera_Position>
 <Main/>
 <Body_Height>1.25</Body_Height>
 	<Body_Width>6</Body_Width>
@@ -15,4 +15,8 @@
 <Light_X_Range>1</Light_X_Range>
 	<Light_Y_Range>1</Light_Y_Range>
 <X_Spawn_Spread>8.25</X_Spawn_Spread>
+<Image_Duration>20</Image_Duration>
+	<Responsivness>0.05</Responsivness>
+	<Max_Torque>150</Max_Torque>
+	<Spin_Damping>0.895</Spin_Damping>
 </Main>

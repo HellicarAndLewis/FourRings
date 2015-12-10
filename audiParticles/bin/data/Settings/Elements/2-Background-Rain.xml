@@ -26,5 +26,6 @@
     <Spawn_Fidelity>0.813333</Spawn_Fidelity>
     <Kinect_Spawn>1</Kinect_Spawn>
     <Vignette_Offset>100</Vignette_Offset>
+    <Depth_Reactive>0</Depth_Reactive>
 <Main/>
 </Main>

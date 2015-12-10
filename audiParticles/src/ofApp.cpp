@@ -39,6 +39,8 @@ void ofApp::setup()
     kinect.init();
     kinect.open();
     
+    depthFinder.setup(kinect.getWidth(), kinect.getHeight());
+    
     //setup our FBO
     // print the intrinsic IR sensor values
     if(kinect.isConnected()) {
@@ -67,6 +69,7 @@ void ofApp::setup()
     gui.add(nearClip.set("Kinect Spawn Near Clip", 230, 0, 255));
     gui.add(farClip.set("Kinect Spawn Far Clip", 70, 0, 255));
     gui.add(vignetteOffset.set("Vignette Offset", 0.0, 0.0, 500.0));
+    gui.add(depthReactivity.set("Depth Reaction", false));
     gui.loadFromFile(xmlSettingsPath);
     
 //    elements.resize(4);
@@ -92,7 +95,7 @@ void ofApp::update()
 {
 //     agua.update(&fbo.getTextureReference());
     if(output != lastOutput) {
-        elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn, &vignetteOffset);
+        elements[output].setToParticleSystem(&particles, &camera, &kinectSpawn, &vignetteOffset, &depthReactivity);
         lastOutput = output;
     }
 	// Update time, this let's us hit space and slow down time, even reverse it.
@@ -110,6 +113,12 @@ void ofApp::update()
             ofVec2f flow = flowFinder.getAverageFlow();
             if(flowControl)
                 particles.modifyByVector(flow);
+            if(depthReactivity) {
+                depthFinder.updateAverageDepth(&kinect);
+                float change = depthFinder.getCurrentAverageDepth();
+                change = ofMap(change, 0.5, 1, 0.001, 0.01, true);
+                particles.modifyTimeStep(change);
+            }
         }
     }
     if(input == CAMERA) {
@@ -209,6 +218,8 @@ void ofApp::draw()
         ofTranslate(kinect.getWidth(), HEIGHT - kinect.getHeight());
         ofScale(-1, 1);
         kinect.draw(0, 0, kinect.getWidth(), kinect.getHeight());
+        if(depthReactivity)
+            depthFinder.debugDraw(0, 0, kinect.getWidth(), kinect.getHeight());
 //        grayImage.draw(0, 0, kinect.getWidth() - 100, kinect.getHeight());
         if( kinectSpawn ) grayImage.draw(-kinect.getWidth(), 0, kinect.getWidth(), kinect.getHeight());
         ofPopMatrix();
@@ -246,7 +257,7 @@ void ofApp::keyPressed(int key)
 	}
     else if( key == ' ' )
     {
-        elements[output].setFromCurrentSystem(&particles, &camera, &kinectSpawn, &vignetteOffset);
+        elements[output].setFromCurrentSystem(&particles, &camera, &kinectSpawn, &vignetteOffset, &depthReactivity);
         elements[output].saveToFile(elementsDir.getPath(output));
     }
     
@@ -308,15 +319,6 @@ void ofApp::setSpawnPointsPointCloud() {
     while (spawnPoints.size() < 200) {
         spawnPoints.push_back(0.1 * ofVec3f(ofRandom(-1, 1), ofRandom(-1, 1), ofRandom(-1, 1)));
     }
-//        glPointSize(3);
-//    ofPushMatrix();
-//    // the projected points are 'upside down' and 'backwards'
-//    //ofScale(1, -1, -1);
-//    ofTranslate(0, 0, -2000); // center the points a bit
-//    ofEnableDepthTest();
-//    mesh.drawVertices();
-//    ofDisableDepthTest();
-//    ofPopMatrix();
 }
 
 void ofApp::setSpawnPointsContours() {
@@ -352,4 +354,12 @@ void ofApp::setSpawnPointsContours() {
     while (spawnPoints.size() < 200) {
         spawnPoints.push_back(0.1 * ofVec3f(ofRandom(-1, 1), ofRandom(-1, 1), ofRandom(-1, 1)));
     }
+}
+
+float ofApp::getDepthChange() {
+    depthFinder.updateAverageDepth(&kinect);
+    float currentAverageDepth = depthFinder.getCurrentAverageDepth();
+    float runningAverageDepth = depthFinder.getRunningAverageDepth();
+    
+    return currentAverageDepth - runningAverageDepth;
 }

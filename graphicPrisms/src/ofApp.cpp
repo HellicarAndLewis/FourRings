@@ -17,7 +17,7 @@ void ofApp::setup() {
     
     ofSetLogLevel(OF_LOG_SILENT);
     
-    //camera.disableMouseInput();
+    camera.disableMouseInput();
     
     fadeAmnt = 0.0;
     
@@ -79,6 +79,8 @@ void ofApp::setup() {
     gui.add( spawnSpread.set("X Spawn Spread", 30, 0.0, 50.0));
     gui.add( imageDuration.set("Image Duration", 20, 1, 60));
     gui.add( attraction.set("Responsivness", 0.05, 0.0, 0.1));
+    gui.add( maxTorque.set("Max Torque", 500.0, 0.0, 1000.0));
+    gui.add( damping.set("Spin Damping", 0.8, 0.0, 1.0));
 
     gui.loadFromFile(xmlSettingsPath);
     
@@ -236,9 +238,13 @@ void ofApp::update() {
         ofVec2f averageFlow = flow.getAverageFlow();
         float x = averageFlow.x;
         if(abs(x) < 0.01) x = 0;
-        xParalax.target(ofMap(x, -2, 2, 30, -30));
+        xParalax.target(ofMap(x, -2, 2, -maxTorque, maxTorque));
         xParalax.update();
-        camera.setPosition(camera.getPosition().x, camera.getPosition().y, xParalax.val);
+        //camera.setPosition(camera.getPosition().x, camera.getPosition().y, xParalax.val);
+        for(int i = 0; i < parallelograms.size(); i++) {
+            parallelograms[i]->applyTorque(ofVec3f(xParalax.val, 0, 0));
+            parallelograms[i]->setAngularDamping(damping);
+        }
     }
     xParalax.attraction = attraction;
     

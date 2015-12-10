@@ -24,6 +24,7 @@ class ParticleSystemGPU
 		void update( float _time, vector<ofVec3f> spawnPoints );
 		void draw( ofCamera* _camera );
         void modifyByVector(ofVec2f flow);
+        void modifyTimeStep(float _timeStep);
 	
 		int						numParticles;
 		int						textureSize;

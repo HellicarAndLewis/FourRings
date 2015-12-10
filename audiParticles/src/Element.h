@@ -29,6 +29,7 @@ struct element {
     bool kinectSpawn;
     float spawnFidelity;
     float vignetteOffset;
+    bool depthReactivityOn;
     
     ofImage foreground;
     ofImage background;
@@ -37,9 +38,9 @@ struct element {
     
     void saveToFile(string xmlSettingsPath);
     
-    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset);
+    void setFromCurrentSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset, ofParameter<bool>* _depthReactivityOn);
     
-    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset);
+    void setToParticleSystem(ParticleSystemGPU* particleSystem, ofxFirstPersonCamera* cam, ofParameter<bool>* _kinectSpawn, ofParameter<float>* _vignetteOffset, ofParameter<bool>* _depthReactivityOn);
     
     void updateFromFlow(ofVec3f flow);
 };

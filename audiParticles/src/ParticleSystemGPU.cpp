@@ -205,3 +205,7 @@ void ParticleSystemGPU::modifyByVector( ofVec2f flow ) {
 
     baseSpeed.set(ofVec3f(newX, newY, baseSpeed.get().z));
 }
+
+void ParticleSystemGPU::modifyTimeStep(float _timeStep) {
+    timeStep = _timeStep;
+}

@@ -4,14 +4,14 @@
 	<Noise_Position_Scale>9.334</Noise_Position_Scale>
 	<Noise_Time_Scale>0.94672</Noise_Time_Scale>
 	<Noise_Persistence>0.90676</Noise_Persistence>
-	<Wind>0.000416032, -0.408163, 0.0816326</Wind>
+	<Wind>-0.007533, -0.408163, 0.0816326</Wind>
 	<Start_Color>104, 108, 163, 76</Start_Color>
 	<End_Color>21, 72, 165, 94</End_Color>
 	<Twist_Noise_Time_Scale>0.0233333</Twist_Noise_Time_Scale>
 	<Twist_Noise_Pos_Scale>0.06</Twist_Noise_Pos_Scale>
 	<Twist_Min_Ang>-0.266667</Twist_Min_Ang>
 	<Twist_Max_Ang>0.9</Twist_Max_Ang>
-	<Particle_Size>0.000765333</Particle_Size>
+	<Particle_Size>0.00143067</Particle_Size>
 	<Particle_Alpha>0.74</Particle_Alpha>
 	<Particle_Opacity_Scale>0.786667</Particle_Opacity_Scale>
 	<Light_Position>-1.05442, 1.66667, -0.85034</Light_Position>
@@ -23,8 +23,9 @@
     <Background_Color>29, 39, 58, 255</Background_Color>
     <Time_Step>0.0025</Time_Step>
     <Wind_Influence>0.047619, 0</Wind_Influence>
-    <Spawn_Fidelity>0.813333</Spawn_Fidelity>
+    <Spawn_Fidelity>1</Spawn_Fidelity>
     <Kinect_Spawn>1</Kinect_Spawn>
     <Vignette_Offset>100</Vignette_Offset>
+    <Depth_Reactive>0</Depth_Reactive>
 <Main/>
 </Main>

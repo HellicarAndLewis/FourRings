@@ -144,6 +144,7 @@
 		1A58F40A1C0773EE00BF266F /* ofEasyCamExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofEasyCamExt.h; sourceTree = "<group>"; };
 		1A58F40B1C0773EE00BF266F /* ofTrueTypeFontExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofTrueTypeFontExt.h; sourceTree = "<group>"; };
 		1A58F40C1C0773EE00BF266F /* SizeLimitedDeque.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizeLimitedDeque.h; sourceTree = "<group>"; };
+		1A85031E1C19CFA200A50F76 /* DepthFinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DepthFinder.h; sourceTree = "<group>"; };
 		1C0DA2561397A7DE0246858B /* ofxGuiGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGuiGroup.h; path = ../../../addons/ofxGui/src/ofxGuiGroup.h; sourceTree = SOURCE_ROOT; };
 		1E95EFD35ED9C5D97F2F015E /* timer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = timer.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/timer.h; sourceTree = SOURCE_ROOT; };
 		241AAF7769D555E4ECD57E17 /* cameras.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = cameras.h; path = ../../../addons/ofxKinect/libs/libfreenect/src/cameras.h; sourceTree = SOURCE_ROOT; };
@@ -951,6 +952,7 @@
 				1A58F3FF1C0773EE00BF266F /* ParticleSystemGPU.h */,
 				1A2D06C21C0C874300FBADF2 /* Element.cpp */,
 				1A2D06C31C0C874300FBADF2 /* Element.h */,
+				1A85031E1C19CFA200A50F76 /* DepthFinder.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
